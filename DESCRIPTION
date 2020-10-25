@@ -1,0 +1,20 @@
+Package: pranger
+Type: Package
+Title: Proximities with ranger
+Version: 0.1.0
+Author: Cesaire J. K. Fouodo
+Maintainer: Cesaire J. K. Fouodo <cesaire.kuetefouodo@uni-luebeck.de>
+Description: Compute dissimilarities as described from the author's paper
+    Use four spaces when indenting paragraphs within the Description.
+Depends:
+    data.table,
+    ranger,
+    gtools,
+    parallel,
+    stats
+License: GPL
+RoxygenNote: 7.1.1
+URL: https://github.com/imbs-hl/pranger
+BugReports: https://github.com/imbs-hl/pranger/issues
+Encoding: UTF-8
+LazyData: true
