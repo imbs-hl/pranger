@@ -25,7 +25,7 @@ predicted_forest_distance_parall <- function(
   forest
 ){
   ## Source code for new distance
-  cat(sprintf("Tree %s...\n", index_tree))
+  cat(sprintf("Processing tree %s...\n", index_tree))
   data_dist <- predicted_tree_distance(
     tree_index = index_tree,
     forest = forest,
