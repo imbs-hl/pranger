@@ -8,6 +8,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' set.seed(1234)
 #' train.idx <- sample(nrow(iris), 2/3 * nrow(iris))
 #' iris.train <- iris[train.idx, ]
@@ -17,6 +18,7 @@
 #'  iris_dist <- predicted_forest_distance(
 #'    forest = rg.iris,
 #'    predictions = pred.iris)
+#'}
 #' @author Cesaire J. K. Fouodo
 #' @import parallel
 predicted_forest_distance <- function(

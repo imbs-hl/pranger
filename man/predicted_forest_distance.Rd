@@ -20,6 +20,7 @@ predicted_forest_distance Compute dissimilarity matrix over the forest. Node
 that this function will parallelize over the available CPUs nodes.
 }
 \examples{
+\dontrun{
 set.seed(1234)
 train.idx <- sample(nrow(iris), 2/3 * nrow(iris))
 iris.train <- iris[train.idx, ]
@@ -29,6 +30,7 @@ pred.iris <- predict(rg.iris, data = iris.test, type = "terminalNodes")
  iris_dist <- predicted_forest_distance(
    forest = rg.iris,
    predictions = pred.iris)
+}
 }
 \author{
 Cesaire J. K. Fouodo
