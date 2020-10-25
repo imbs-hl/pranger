@@ -36,7 +36,7 @@ pranger <- function(
   ranger_pred <- predict(object = ranger_forest,
                          data = data[1:n, -1],
                          type = "terminalNodes")
-  ## Calculate dissimilarities
+  ## Calculate dissimilarities between observations
   forest_dist <- predicted_forest_distance(forest = ranger_forest,
                                            predictions = ranger_pred)
   return(forest_dist)
