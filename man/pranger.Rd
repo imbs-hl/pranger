@@ -4,7 +4,7 @@
 \alias{pranger}
 \title{Title}
 \usage{
-pranger(data, strategy, verbose, ...)
+pranger(data, strategy, verbose = FALSE, ...)
 }
 \arguments{
 \item{data}{[data.frame(1)] A \code{data.frame} of original dataset}

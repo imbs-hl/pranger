@@ -99,10 +99,11 @@ resampling <- function(
             )
           } else {
             if(strategy == "binomial"){#--------------------------
-              synth_data <- data$yy <- sample(
+              data$yy <- sample(
                 x = 0:1,
                 size = nrow(data),
                 replace = TRUE)
+              synth_data <- data
             }
           }
         }
