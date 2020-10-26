@@ -49,8 +49,8 @@ resampling <- function(
                              )
   } else {
     if(strategy == "boostwithoutrepl"){#--------------------------
-      nrow1 <- dim(data)[[1]];
-      yy <- rep(c(1, 2), c(nrow1, nrow1) );
+      nrow1 <- dim(data)[[1]]
+      yy <- rep(c(1, 2), c(nrow1, nrow1) )
       synth_data <- data.frame(cbind(yy, rbind(data,
                                                data.frame(
                                                  g_boostwithoutrepl(
@@ -109,5 +109,6 @@ resampling <- function(
       }
     }
   }
+  synth_data$yy <- as.factor(synth_data$yy)
   return(synth_data)
 }

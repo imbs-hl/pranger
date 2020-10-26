@@ -4,14 +4,16 @@
 \alias{pranger}
 \title{Title}
 \usage{
-pranger(data, strategy, ...)
+pranger(data, strategy, verbose, ...)
 }
 \arguments{
 \item{data}{[data.frame(1)] A \code{data.frame} of original dataset}
 
-\item{strategy}{[character(1)] Name of strategy to be used. Most be element of
+\item{strategy}{[character(1)] Name of the resampling strategy to be used. Most be element of
 "boostrepl", "boostwithoutrepl", "boostbayes",
 "unif", "normal" or "binomial"}
+
+\item{verbose}{[boolean] If TRUE, verbose}
 
 \item{...}{further parameters to be passed to \code{ranger}}
 }
