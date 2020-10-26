@@ -23,7 +23,7 @@
 pranger <- function(
   data,
   strategy,
-  verbose,
+  verbose FALSE,
   ...
 ){
   n <- nrow(data)
