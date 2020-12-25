@@ -77,7 +77,7 @@ resampling <- function(
             runif(length(X), min=min(X), max =max(X)) }
           g2  <- function(data){
             apply(data,2,sample2)}
-          nrow1 <- dim(data)[[1]];
+          nrow1 <- dim(data)[[1]]
           yy <- rep(c(1,2), c(nrow1, nrow1))
           synth_data <- data.frame(cbind(yy,
                                          rbind(data,
@@ -85,7 +85,7 @@ resampling <- function(
         } else {
           if(strategy == "normal"){#--------------------------
             sample3 <- function(X){
-              rnorm(length(X), mean=mean(X), sd = var(X))
+              rnorm(length(X), mean=mean(X), sd = sd(X))
             }
             g3  <- function(data) {
               apply(data,2,sample3)
