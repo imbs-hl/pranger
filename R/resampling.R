@@ -104,6 +104,75 @@ resampling <- function(
                 size = nrow(data),
                 replace = TRUE)
               synth_data <- data.frame(cbind(yy, data))
+            } else {
+              if(strategy == "rejection"){#-----------------------
+                ## Define functions
+                sample_one_elt <- function(data = data, delta) {
+                  width <- max(data) - min(data)
+                  min_data <- min(data)
+                  ## Normalization
+                  data <- (data - min_data) / width
+                  ## We assume x to have values between 0 and 1
+                  n <- length(data)
+                  accepted <- FALSE
+                  data <- sort(data, decreasing = FALSE)
+                  delta <- if(missing(delta)){
+                    1 / (length(data))
+                  } else {
+                    delta
+                  }
+                  ecdf_data <- ecdf(data)
+                  prob_intervall <- lapply(0:(n-1), function(intervall, ecdf_data, data){
+                    prob <- diff(ecdf_data(c(intervall*delta, (intervall+1)*delta)))
+                    return(prob)
+                  }, ecdf_data = ecdf_data, data = data)
+                  prob_intervall <- unlist(prob_intervall)
+
+                  ## Empirical probabilities
+                  x <- NULL
+                  while(!accepted) {
+                    intervall <- sample(
+                      x = 0:(n-1),
+                      size = 1,
+                      prob = prob_intervall,
+                      replace = FALSE
+                    )
+                    x <- runif(n = 1, min = 0, max = 1)
+                    accepted <- ((intervall*delta <= x) & (x < (intervall+1)*delta))
+                  }
+                  x <- x * width + min_data
+                  return(x)
+                }
+
+                sample_n_elts <- function(n, data = data, delta){
+                  delta <- if(missing(delta)){
+                    1 / (length(data))
+                  } else {
+                    delta
+                  }
+                  my_sample <- unlist(
+                    lapply(1:length(data), function(i, data, delta = delta){
+                      sample_one_elt(data = data, delta = delta)
+                    },
+                    data = data, delta = delta))
+                  return(my_sample)
+                }
+                ## Use functions
+                g3  <- function(data) {
+                  ##!! ToDo: Take delta into account in rejection sampling
+                  ##!! Now it set as default
+                  apply(data, 2, function(i){
+                    sample_n_elts(n = length(i), i)
+                  })
+                }
+                nrow1 <- dim(data)[[1]]
+                yy <- rep(
+                  c(1,2),
+                  c(nrow1, nrow1))
+                synth_data <- data.frame(
+                  cbind(yy, rbind(data, data.frame(g3(data = data))))
+                )
+              }
             }
           }
         }
