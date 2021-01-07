@@ -184,7 +184,7 @@ resampling <- function(
                 # }
                 sample_n_elts <- function(n, data = data, delta){
                   delta <- if(missing(delta)){
-                    1 / (length(data))
+                    10(1 / (length(data)))
                   } else {
                     delta
                   }
