@@ -113,37 +113,75 @@ resampling <- function(
                   ## Normalization
                   data <- (data - min_data) / width
                   ## We assume x to have values between 0 and 1
-                  n <- length(data)
                   accepted <- FALSE
                   data <- sort(data, decreasing = FALSE)
                   delta <- if(missing(delta)){
-                    1 / (length(data))
+                    10 * (1 / (length(data)))
                   } else {
                     delta
                   }
-                  ecdf_data <- ecdf(data)
-                  prob_intervall <- lapply(0:(n-1), function(intervall, ecdf_data, data){
-                    prob <- diff(ecdf_data(c(intervall*delta, (intervall+1)*delta)))
-                    return(prob)
-                  }, ecdf_data = ecdf_data, data = data)
-                  prob_intervall <- unlist(prob_intervall)
+                  n_intervall <- ceiling((max(data) - min(data)) / delta) - 1
+                  intervall_frq <- lapply(0:n_intervall,
+                                          function(intervall, data){
+                                            frq <- sum(
+                                              (intervall*delta <= data) & (data < (intervall+1)*delta)
+                                            )
+                                            return(frq)
+                                          }, data = data)
 
+                  intervall_frq <- unlist(intervall_frq)
                   ## Empirical probabilities
                   x <- NULL
                   while(!accepted) {
-                    intervall <- sample(
-                      x = 0:(n-1),
-                      size = 1,
-                      prob = prob_intervall,
-                      replace = FALSE
-                    )
-                    x <- runif(n = 1, min = 0, max = 1)
-                    accepted <- ((intervall*delta <= x) & (x < (intervall+1)*delta))
+                    ## Draw interval according to probability to be accepted
+                    draw_frq <- unlist(mapply(rep, 0:n_intervall, intervall_frq * 1/delta))
+                    x_unif <- runif(n = length(draw_frq), min = 0, max = 1)
+                    within_interval <- ((draw_frq*delta <= x_unif) &
+                                          (x_unif < (draw_frq+1)*delta))
+                    accepted <- any(unlist(within_interval))
+                    x <- if(accepted){
+                      sample(x = x_unif[unlist(within_interval)], size = 1)
+                    }
                   }
                   x <- x * width + min_data
                   return(x)
                 }
-
+                # sample_one_elt <- function(data = data, delta) {
+                #   width <- max(data) - min(data)
+                #   min_data <- min(data)
+                #   ## Normalization
+                #   data <- (data - min_data) / width
+                #   ## We assume x to have values between 0 and 1
+                #   n <- length(data)
+                #   accepted <- FALSE
+                #   data <- sort(data, decreasing = FALSE)
+                #   delta <- if(missing(delta)){
+                #     1 / (length(data))
+                #   } else {
+                #     delta
+                #   }
+                #   ecdf_data <- ecdf(data)
+                #   prob_intervall <- lapply(0:(n-1), function(intervall, ecdf_data, data){
+                #     prob <- diff(ecdf_data(c(intervall*delta, (intervall+1)*delta)))
+                #     return(prob)
+                #   }, ecdf_data = ecdf_data, data = data)
+                #   prob_intervall <- unlist(prob_intervall)
+                #
+                #   ## Empirical probabilities
+                #   x <- NULL
+                #   while(!accepted) {
+                #     intervall <- sample(
+                #       x = 0:(n-1),
+                #       size = 1,
+                #       prob = prob_intervall,
+                #       replace = FALSE
+                #     )
+                #     x <- runif(n = 1, min = 0, max = 1)
+                #     accepted <- ((intervall*delta <= x) & (x < (intervall+1)*delta))
+                #   }
+                #   x <- x * width + min_data
+                #   return(x)
+                # }
                 sample_n_elts <- function(n, data = data, delta){
                   delta <- if(missing(delta)){
                     1 / (length(data))
@@ -162,7 +200,7 @@ resampling <- function(
                   ##!! ToDo: Take delta into account in rejection sampling
                   ##!! Now it set as default
                   apply(data, 2, function(i){
-                    sample_n_elts(n = length(i), i)
+                    sample_n_elts(n = length(i), data = i)
                   })
                 }
                 nrow1 <- dim(data)[[1]]
