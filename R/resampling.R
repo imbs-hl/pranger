@@ -34,7 +34,6 @@ resampling <- function(
     sample(tmp_data, replace = FALSE)
   }
   g_boostrepl <- function(tmp_data){
-    tmp_data <- data <- scale(tmp_data, center = TRUE, scale = FALSE)
     apply(tmp_data, 2, sample_boostrepl)
   }
   g_boostwithoutrepl <- function(tmp_data){
@@ -109,7 +108,7 @@ resampling <- function(
               if(strategy == "rejection"){#-----------------------
                 ## Define functions
                 sample_one_elt <- function(data = data, delta) {
-                  data <- scale(data, center = TRUE, scale = FALSE)
+                  data <- scale(data, center = TRUE, scale = TRUE)
                   width <- max(data) - min(data)
                   min_data <- min(data)
                   ## Normalization
