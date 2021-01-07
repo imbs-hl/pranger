@@ -34,6 +34,7 @@ resampling <- function(
     sample(tmp_data, replace = FALSE)
   }
   g_boostrepl <- function(tmp_data){
+    tmp_data <- data <- scale(tmp_data, center = TRUE, scale = FALSE)
     apply(tmp_data, 2, sample_boostrepl)
   }
   g_boostwithoutrepl <- function(tmp_data){
