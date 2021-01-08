@@ -108,9 +108,7 @@ resampling <- function(
               if(strategy == "rejection"){#-----------------------
                 ## Define functions
                 sample_one_elt <- function(data = data, delta) {
-                  mean_data <- mean(data)
-                  data[data < mean_data] <- data[data < mean_data] + mean_data
-                  data[data > mean_data] <- data[data > mean_data] - mean_data
+                  # data <- scale(data, center = TRUE, scale = FALSE)
                   min_data <- min(data)
                   width <- max(data) - min(data)
                   ## Normalization
@@ -133,7 +131,6 @@ resampling <- function(
                                           }, data = data)
 
                   intervall_frq <- unlist(intervall_frq)
-                  intervall_frq <- max(intervall_frq) - intervall_frq
                   ## Empirical probabilities
                   x <- NULL
                   while(!accepted) {
