@@ -110,7 +110,7 @@ resampling <- function(
                 sample_one_elt <- function(data = data, delta) {
                   mean_data <- mean(data)
                   data[data < mean_data] <- data[data < mean_data] + mean_data
-                  data[data > mean_data] <- data[data < mean_data] - mean_data
+                  data[data > mean_data] <- data[data > mean_data] - mean_data
                   min_data <- min(data)
                   width <- max(data) - min(data)
                   ## Normalization
