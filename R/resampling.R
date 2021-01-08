@@ -244,7 +244,7 @@ resampling <- function(
                 ## !!!!!!!!!!!!!
                 sample_n_elts <- function(data, nb_rep){
                   nb_rep <- if(missing(nb_rep)){
-                    ceiling(sqrt(length(data)))
+                    ceiling(sqrt(length(data))) * 10
                   } else {
                     nb_rep
                   }
