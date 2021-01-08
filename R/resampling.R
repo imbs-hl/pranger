@@ -108,15 +108,16 @@ resampling <- function(
               if(strategy == "rejection"){#-----------------------
                 ## Define functions
                 sample_one_elt <- function(data = data, delta) {
-                  width <- max(data) - min(data)
+                  # data <- scale(data, center = TRUE, scale = FALSE)
                   min_data <- min(data)
+                  width <- max(data) - min(data)
                   ## Normalization
-                  data <- (data - min_data) / width
+                  data <- (data - min_data) #/ width
                   ## We assume x to have values between 0 and 1
                   accepted <- FALSE
                   data <- sort(data, decreasing = FALSE)
                   delta <- if(missing(delta)){
-                    10 * (1 / (length(data)))
+                    width * (1 / (length(data)))
                   } else {
                     delta
                   }
@@ -135,7 +136,9 @@ resampling <- function(
                   while(!accepted) {
                     ## Draw interval according to probability to be accepted
                     draw_frq <- unlist(mapply(rep, 0:n_intervall, intervall_frq * 1/delta))
-                    x_unif <- runif(n = length(draw_frq), min = 0, max = 1)
+                    x_unif <- runif(n = length(draw_frq),
+                                    min = min(data),
+                                    max = max(data))
                     within_interval <- ((draw_frq*delta <= x_unif) &
                                           (x_unif < (draw_frq+1)*delta))
                     accepted <- any(unlist(within_interval))
@@ -143,9 +146,50 @@ resampling <- function(
                       sample(x = x_unif[unlist(within_interval)], size = 1)
                     }
                   }
-                  x <- x * width + min_data
+                  # x <- x * width + min_data
+                  x <- x + min_data
                   return(x)
                 }
+
+                # sample_one_elt <- function(data = data, delta) {
+                #   width <- max(data) - min(data)
+                #   min_data <- min(data)
+                #   ## Normalization
+                #   data <- (data - min_data) / width
+                #   ## We assume x to have values between 0 and 1
+                #   accepted <- FALSE
+                #   data <- sort(data, decreasing = FALSE)
+                #   delta <- if(missing(delta)){
+                #     10 * (1 / (length(data)))
+                #   } else {
+                #     delta
+                #   }
+                #   n_intervall <- ceiling((max(data) - min(data)) / delta) - 1
+                #   intervall_frq <- lapply(0:n_intervall,
+                #                           function(intervall, data){
+                #                             frq <- sum(
+                #                               (intervall*delta <= data) & (data < (intervall+1)*delta)
+                #                             )
+                #                             return(frq)
+                #                           }, data = data)
+                #
+                #   intervall_frq <- unlist(intervall_frq)
+                #   ## Empirical probabilities
+                #   x <- NULL
+                #   while(!accepted) {
+                #     ## Draw interval according to probability to be accepted
+                #     draw_frq <- unlist(mapply(rep, 0:n_intervall, intervall_frq * 1/delta))
+                #     x_unif <- runif(n = length(draw_frq), min = 0, max = 1)
+                #     within_interval <- ((draw_frq*delta <= x_unif) &
+                #                           (x_unif < (draw_frq+1)*delta))
+                #     accepted <- any(unlist(within_interval))
+                #     x <- if(accepted){
+                #       sample(x = x_unif[unlist(within_interval)], size = 1)
+                #     }
+                #   }
+                #   x <- x * width + min_data
+                #   return(x)
+                # }
                 # sample_one_elt <- function(data = data, delta) {
                 #   width <- max(data) - min(data)
                 #   min_data <- min(data)
@@ -188,6 +232,7 @@ resampling <- function(
                   } else {
                     delta
                   }
+                  delta <- 0.1
                   my_sample <- unlist(
                     lapply(1:length(data), function(i, data, delta = delta){
                       sample_one_elt(data = data, delta = delta)
