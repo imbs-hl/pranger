@@ -4,14 +4,18 @@
 \alias{pranger}
 \title{Title}
 \usage{
-pranger(data, strategy, verbose = FALSE, ...)
+pranger(data, strategy, nb_bootst, verbose = FALSE, ...)
 }
 \arguments{
 \item{data}{[data.frame(1)] A \code{data.frame} of original dataset}
 
 \item{strategy}{[character(1)] Name of the resampling strategy to be used. Most be element of
 "boostrepl", "boostwithoutrepl", "boostbayes",
-"unif", "normal" or "binomial"}
+"unif", "normal", "binomial" or "aggr_boost"}
+
+\item{nb_bootst}{[integer] Number of repetitions required to aggregate the
+bootstrap samples. Set to ceiling(sqrt(n)) if not
+provided, with n the number of observations}
 
 \item{verbose}{[boolean] If TRUE, verbose}
 

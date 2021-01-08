@@ -6,14 +6,18 @@
            strategy. This implementation is comparable to
            that of Shi and Hovarth (2006)}
 \usage{
-resampling(data, strategy)
+resampling(data, strategy, nb_bootst)
 }
 \arguments{
 \item{data}{[data.frame(1)] A \code{data.frame} of original dataset}
 
 \item{strategy}{[character(1)] Name of strategy to be used. Most be element of
 "boostrepl", "boostwithoutrepl", "boostbayes",
-"unif", "normal" or "binomial"}
+"unif", "normal", "binomial" or "aggr_boost"}
+
+\item{nb_bootst}{[integer(1)] Number of repetitions required to aggregate the
+bootstrap samples. Set to ceiling(sqrt(n)) if not
+provided, with n the number of observations}
 }
 \value{
 [data.frame(1)] A \code{data.frame} of a two-classes classification

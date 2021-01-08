@@ -3,9 +3,12 @@
 #' @param data [data.frame(1)] A \code{data.frame} of original dataset
 #' @param strategy [character(1)] Name of the resampling strategy to be used. Most be element of
 #'                                "boostrepl", "boostwithoutrepl", "boostbayes",
-#'                                "unif", "normal" or "binomial"
+#'                                "unif", "normal", "binomial" or "aggr_boost"
 #' @param verbose [boolean] If TRUE, verbose
 #' @param ... further parameters to be passed to \code{ranger}
+#' @param nb_bootst [integer] Number of repetitions required to aggregate the
+#'                            bootstrap samples. Set to ceiling(sqrt(n)) if not
+#'                            provided, with n the number of observations
 #'
 #' @return [matrix(1)] Matrix of dissimilarities
 #' @export
@@ -23,16 +26,23 @@
 pranger <- function(
   data,
   strategy,
+  nb_bootst,
   verbose = FALSE,
   ...
 ){
   n <- nrow(data)
+  nb_bootst <- if(missing(nb_bootst)){
+    ceiling(sqrt(length(data)))
+  } else {
+    nb_bootst
+  }
   ## Built a two-classes classification problem
   if(verbose){
     cat("Resampling to creating a two-classes problem...\n")
   }
   data <- resampling(data = data,
-                     strategy = strategy)
+                     strategy = strategy,
+                     nb_bootst = nb_bootst)
   ## Grow a random forest with ranger
   if(verbose){
     cat("Growing the ranger forest...\n")
