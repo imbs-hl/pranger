@@ -131,6 +131,7 @@ resampling <- function(
                                           }, data = data)
 
                   intervall_frq <- unlist(intervall_frq)
+                  intervall_frq <- max(intervall_frq) - intervall_frq
                   ## Empirical probabilities
                   x <- NULL
                   while(!accepted) {
@@ -227,7 +228,6 @@ resampling <- function(
                 #   return(x)
                 # }
                 sample_n_elts <- function(n, data = data, delta){
-                  data <- scale(x = data, center = TRUE, scale = FALSE)
                   delta <- if(missing(delta)){
                     10*(1 / (length(data)))
                   } else {
