@@ -111,49 +111,49 @@ resampling <- function(
             } else {
               if(strategy == "aggr_boost"){#-----------------------
                 ## Define functions
-                sample_one_elt <- function(data = data, delta) {
-                  # data <- scale(data, center = TRUE, scale = FALSE)
-                  min_data <- min(data)
-                  width <- max(data) - min(data)
-                  ## Normalization
-                  data <- (data - min_data) #/ width
-                  ## We assume x to have values between 0 and 1
-                  accepted <- FALSE
-                  data <- sort(data, decreasing = FALSE)
-                  delta <- if(missing(delta)){
-                    width * (1 / (length(data)))
-                  } else {
-                    delta
-                  }
-                  n_intervall <- ceiling((max(data) - min(data)) / delta) - 1
-                  intervall_frq <- lapply(0:n_intervall,
-                                          function(intervall, data){
-                                            frq <- sum(
-                                              (intervall*delta <= data) & (data < (intervall+1)*delta)
-                                            )
-                                            return(frq)
-                                          }, data = data)
-
-                  intervall_frq <- unlist(intervall_frq)
-                  ## Empirical probabilities
-                  x <- NULL
-                  while(!accepted) {
-                    ## Draw interval according to probability to be accepted
-                    draw_frq <- unlist(mapply(rep, 0:n_intervall, intervall_frq * 1/delta))
-                    x_unif <- runif(n = length(draw_frq),
-                                    min = min(data),
-                                    max = max(data))
-                    within_interval <- ((draw_frq*delta <= x_unif) &
-                                          (x_unif < (draw_frq+1)*delta))
-                    accepted <- any(unlist(within_interval))
-                    x <- if(accepted){
-                      sample(x = x_unif[unlist(within_interval)], size = 1)
-                    }
-                  }
-                  # x <- x * width + min_data
-                  x <- x + min_data
-                  return(x)
-                }
+                # sample_one_elt <- function(data = data, delta) {
+                #   # data <- scale(data, center = TRUE, scale = FALSE)
+                #   min_data <- min(data)
+                #   width <- max(data) - min(data)
+                #   ## Normalization
+                #   data <- (data - min_data) #/ width
+                #   ## We assume x to have values between 0 and 1
+                #   accepted <- FALSE
+                #   data <- sort(data, decreasing = FALSE)
+                #   delta <- if(missing(delta)){
+                #     width * (1 / (length(data)))
+                #   } else {
+                #     delta
+                #   }
+                #   n_intervall <- ceiling((max(data) - min(data)) / delta) - 1
+                #   intervall_frq <- lapply(0:n_intervall,
+                #                           function(intervall, data){
+                #                             frq <- sum(
+                #                               (intervall*delta <= data) & (data < (intervall+1)*delta)
+                #                             )
+                #                             return(frq)
+                #                           }, data = data)
+                #
+                #   intervall_frq <- unlist(intervall_frq)
+                #   ## Empirical probabilities
+                #   x <- NULL
+                #   while(!accepted) {
+                #     ## Draw interval according to probability to be accepted
+                #     draw_frq <- unlist(mapply(rep, 0:n_intervall, intervall_frq * 1/delta))
+                #     x_unif <- runif(n = length(draw_frq),
+                #                     min = min(data),
+                #                     max = max(data))
+                #     within_interval <- ((draw_frq*delta <= x_unif) &
+                #                           (x_unif < (draw_frq+1)*delta))
+                #     accepted <- any(unlist(within_interval))
+                #     x <- if(accepted){
+                #       sample(x = x_unif[unlist(within_interval)], size = 1)
+                #     }
+                #   }
+                #   # x <- x * width + min_data
+                #   x <- x + min_data
+                #   return(x)
+                # }
 
                 # sample_one_elt <- function(data = data, delta) {
                 #   width <- max(data) - min(data)
@@ -246,7 +246,7 @@ resampling <- function(
                 #   return(my_sample)
                 # }
                 ## !!!!!!!!!!!!!
-                sample_n_elts <- function(data, nb_bootst = nb_bootst){
+                sample_n_elts <- function(data, nb_bootst){
                   bootstr_sples <- lapply(1:nb_bootst, function(i, data){
                     sample(x = data, replace = TRUE)
                   }, data = data)
@@ -255,11 +255,9 @@ resampling <- function(
                   return(bootstr_sples)
                 }
                 ## Use functions
-                g3  <- function(data) {
-                  ##!! ToDo: Take delta into account in rejection sampling
-                  ##!! Now it set as default
+                g3  <- function(data, nb_bootst) {
                   apply(data, 2, function(i){
-                    sample_n_elts(data = i)
+                    sample_n_elts(data = i, nb_bootst = nb_bootst)
                   })
                 }
                 nrow1 <- dim(data)[[1]]
@@ -267,7 +265,8 @@ resampling <- function(
                   c(1,2),
                   c(nrow1, nrow1))
                 synth_data <- data.frame(
-                  cbind(yy, rbind(data, data.frame(g3(data = data))))
+                  cbind(yy, rbind(data, data.frame(g3(data = data,
+                                                      nb_bootst = nb_bootst))))
                 )
               }
             }
