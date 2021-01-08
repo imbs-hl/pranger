@@ -3,7 +3,7 @@
 #' @param data [data.frame(1)] A \code{data.frame} of original dataset
 #' @param strategy [character(1)] Name of the resampling strategy to be used. Most be element of
 #'                                "boostrepl", "boostwithoutrepl", "boostbayes",
-#'                                "unif", "normal", "binomial" or "aggr_boost"
+#'                                "unif", "normal", "binomial" or "boostaggr"
 #' @param verbose [boolean] If TRUE, verbose
 #' @param ... further parameters to be passed to \code{ranger}
 #' @param nb_bootst [integer] Number of repetitions required to aggregate the

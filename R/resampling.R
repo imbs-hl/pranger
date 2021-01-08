@@ -5,7 +5,7 @@
 #' @param data [data.frame(1)] A \code{data.frame} of original dataset
 #' @param strategy [character(1)] Name of strategy to be used. Most be element of
 #'                                "boostrepl", "boostwithoutrepl", "boostbayes",
-#'                                "unif", "normal", "binomial" or "aggr_boost"
+#'                                "unif", "normal", "binomial" or "boostaggr"
 #' @param nb_bootst [integer(1)] Number of repetitions required to aggregate the
 #'                            bootstrap samples. Set to ceiling(sqrt(n)) if not
 #'                            provided, with n the number of observations
@@ -109,143 +109,8 @@ resampling <- function(
                 replace = TRUE)
               synth_data <- data.frame(cbind(yy, data))
             } else {
-              if(strategy == "aggr_boost"){#-----------------------
+              if(strategy == "boostaggr"){#-----------------------
                 ## Define functions
-                # sample_one_elt <- function(data = data, delta) {
-                #   # data <- scale(data, center = TRUE, scale = FALSE)
-                #   min_data <- min(data)
-                #   width <- max(data) - min(data)
-                #   ## Normalization
-                #   data <- (data - min_data) #/ width
-                #   ## We assume x to have values between 0 and 1
-                #   accepted <- FALSE
-                #   data <- sort(data, decreasing = FALSE)
-                #   delta <- if(missing(delta)){
-                #     width * (1 / (length(data)))
-                #   } else {
-                #     delta
-                #   }
-                #   n_intervall <- ceiling((max(data) - min(data)) / delta) - 1
-                #   intervall_frq <- lapply(0:n_intervall,
-                #                           function(intervall, data){
-                #                             frq <- sum(
-                #                               (intervall*delta <= data) & (data < (intervall+1)*delta)
-                #                             )
-                #                             return(frq)
-                #                           }, data = data)
-                #
-                #   intervall_frq <- unlist(intervall_frq)
-                #   ## Empirical probabilities
-                #   x <- NULL
-                #   while(!accepted) {
-                #     ## Draw interval according to probability to be accepted
-                #     draw_frq <- unlist(mapply(rep, 0:n_intervall, intervall_frq * 1/delta))
-                #     x_unif <- runif(n = length(draw_frq),
-                #                     min = min(data),
-                #                     max = max(data))
-                #     within_interval <- ((draw_frq*delta <= x_unif) &
-                #                           (x_unif < (draw_frq+1)*delta))
-                #     accepted <- any(unlist(within_interval))
-                #     x <- if(accepted){
-                #       sample(x = x_unif[unlist(within_interval)], size = 1)
-                #     }
-                #   }
-                #   # x <- x * width + min_data
-                #   x <- x + min_data
-                #   return(x)
-                # }
-
-                # sample_one_elt <- function(data = data, delta) {
-                #   width <- max(data) - min(data)
-                #   min_data <- min(data)
-                #   ## Normalization
-                #   data <- (data - min_data) / width
-                #   ## We assume x to have values between 0 and 1
-                #   accepted <- FALSE
-                #   data <- sort(data, decreasing = FALSE)
-                #   delta <- if(missing(delta)){
-                #     10 * (1 / (length(data)))
-                #   } else {
-                #     delta
-                #   }
-                #   n_intervall <- ceiling((max(data) - min(data)) / delta) - 1
-                #   intervall_frq <- lapply(0:n_intervall,
-                #                           function(intervall, data){
-                #                             frq <- sum(
-                #                               (intervall*delta <= data) & (data < (intervall+1)*delta)
-                #                             )
-                #                             return(frq)
-                #                           }, data = data)
-                #
-                #   intervall_frq <- unlist(intervall_frq)
-                #   ## Empirical probabilities
-                #   x <- NULL
-                #   while(!accepted) {
-                #     ## Draw interval according to probability to be accepted
-                #     draw_frq <- unlist(mapply(rep, 0:n_intervall, intervall_frq * 1/delta))
-                #     x_unif <- runif(n = length(draw_frq), min = 0, max = 1)
-                #     within_interval <- ((draw_frq*delta <= x_unif) &
-                #                           (x_unif < (draw_frq+1)*delta))
-                #     accepted <- any(unlist(within_interval))
-                #     x <- if(accepted){
-                #       sample(x = x_unif[unlist(within_interval)], size = 1)
-                #     }
-                #   }
-                #   x <- x * width + min_data
-                #   return(x)
-                # }
-                # sample_one_elt <- function(data = data, delta) {
-                #   width <- max(data) - min(data)
-                #   min_data <- min(data)
-                #   ## Normalization
-                #   data <- (data - min_data) / width
-                #   ## We assume x to have values between 0 and 1
-                #   n <- length(data)
-                #   accepted <- FALSE
-                #   data <- sort(data, decreasing = FALSE)
-                #   delta <- if(missing(delta)){
-                #     1 / (length(data))
-                #   } else {
-                #     delta
-                #   }
-                #   ecdf_data <- ecdf(data)
-                #   prob_intervall <- lapply(0:(n-1), function(intervall, ecdf_data, data){
-                #     prob <- diff(ecdf_data(c(intervall*delta, (intervall+1)*delta)))
-                #     return(prob)
-                #   }, ecdf_data = ecdf_data, data = data)
-                #   prob_intervall <- unlist(prob_intervall)
-                #
-                #   ## Empirical probabilities
-                #   x <- NULL
-                #   while(!accepted) {
-                #     intervall <- sample(
-                #       x = 0:(n-1),
-                #       size = 1,
-                #       prob = prob_intervall,
-                #       replace = FALSE
-                #     )
-                #     x <- runif(n = 1, min = 0, max = 1)
-                #     accepted <- ((intervall*delta <= x) & (x < (intervall+1)*delta))
-                #   }
-                #   x <- x * width + min_data
-                #   return(x)
-                # }
-                ### !!!!!!!!!!!!
-                # sample_n_elts <- function(n, data = data, delta){
-                #   delta <- if(missing(delta)){
-                #     10*(1 / (length(data)))
-                #   } else {
-                #     delta
-                #   }
-                #   delta <- 0.1
-                #   my_sample <- unlist(
-                #     lapply(1:length(data), function(i, data, delta = delta){
-                #       sample_one_elt(data = data, delta = delta)
-                #     },
-                #     data = data, delta = delta))
-                #   return(my_sample)
-                # }
-                ## !!!!!!!!!!!!!
                 sample_n_elts <- function(data, nb_bootst){
                   bootstr_sples <- lapply(1:nb_bootst, function(i, data){
                     sample(x = data, replace = TRUE)
@@ -254,12 +119,13 @@ resampling <- function(
                   bootstr_sples <- colMeans(bootstr_sples)
                   return(bootstr_sples)
                 }
-                ## Use functions
+                ##
                 g3  <- function(data, nb_bootst) {
                   apply(data, 2, function(i, nb_bootst){
                     sample_n_elts(data = i, nb_bootst = nb_bootst)
                   }, nb_bootst = nb_bootst)
                 }
+                ## Use functions
                 nrow1 <- dim(data)[[1]]
                 yy <- rep(
                   c(1,2),
