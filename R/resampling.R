@@ -108,7 +108,9 @@ resampling <- function(
               if(strategy == "rejection"){#-----------------------
                 ## Define functions
                 sample_one_elt <- function(data = data, delta) {
-                  # data <- scale(data, center = TRUE, scale = FALSE)
+                  mean_data <- mean(data)
+                  data[data < mean_data] <- data[data < mean_data] + mean_data
+                  data[data > mean_data] <- data[data < mean_data] - mean_data
                   min_data <- min(data)
                   width <- max(data) - min(data)
                   ## Normalization
