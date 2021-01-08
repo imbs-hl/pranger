@@ -256,9 +256,9 @@ resampling <- function(
                 }
                 ## Use functions
                 g3  <- function(data, nb_bootst) {
-                  apply(data, 2, function(i){
+                  apply(data, 2, function(i, nb_bootst){
                     sample_n_elts(data = i, nb_bootst = nb_bootst)
-                  })
+                  }, nb_bootst = nb_bootst)
                 }
                 nrow1 <- dim(data)[[1]]
                 yy <- rep(
