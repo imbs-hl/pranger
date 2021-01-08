@@ -226,26 +226,41 @@ resampling <- function(
                 #   x <- x * width + min_data
                 #   return(x)
                 # }
-                sample_n_elts <- function(n, data = data, delta){
-                  delta <- if(missing(delta)){
-                    10*(1 / (length(data)))
+                ### !!!!!!!!!!!!
+                # sample_n_elts <- function(n, data = data, delta){
+                #   delta <- if(missing(delta)){
+                #     10*(1 / (length(data)))
+                #   } else {
+                #     delta
+                #   }
+                #   delta <- 0.1
+                #   my_sample <- unlist(
+                #     lapply(1:length(data), function(i, data, delta = delta){
+                #       sample_one_elt(data = data, delta = delta)
+                #     },
+                #     data = data, delta = delta))
+                #   return(my_sample)
+                # }
+                ## !!!!!!!!!!!!!
+                sample_n_elts <- function(data, nb_rep){
+                  nb_rep <- if(missing(nb_rep)){
+                    ceiling(sqrt(length(data)))
                   } else {
-                    delta
+                    nb_rep
                   }
-                  delta <- 0.1
-                  my_sample <- unlist(
-                    lapply(1:length(data), function(i, data, delta = delta){
-                      sample_one_elt(data = data, delta = delta)
-                    },
-                    data = data, delta = delta))
-                  return(my_sample)
+                  bootstr_sples <- lapply(1:nb_rep, function(i, data){
+                    sample(x = data, replace = TRUE)
+                  }, data = data)
+                  bootstr_sples <- Reduce(f = "rbind", x = bootstr_sples)
+                  bootstr_sples <- colMeans(bootstr_sples)
+                  return(bootstr_sples)
                 }
                 ## Use functions
                 g3  <- function(data) {
                   ##!! ToDo: Take delta into account in rejection sampling
                   ##!! Now it set as default
                   apply(data, 2, function(i){
-                    sample_n_elts(n = length(i), data = i)
+                    sample_n_elts(data = i)
                   })
                 }
                 nrow1 <- dim(data)[[1]]
