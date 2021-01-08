@@ -32,7 +32,7 @@ pranger <- function(
 ){
   n <- nrow(data)
   nb_bootst <- if(missing(nb_bootst)){
-    ceiling(sqrt(length(data)))
+    ceiling(log(nrow(data)))
   } else {
     nb_bootst
   }
