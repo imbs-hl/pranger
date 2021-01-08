@@ -5,7 +5,10 @@
 #' @param data [data.frame(1)] A \code{data.frame} of original dataset
 #' @param strategy [character(1)] Name of strategy to be used. Most be element of
 #'                                "boostrepl", "boostwithoutrepl", "boostbayes",
-#'                                "unif", "normal" or "binomial"
+#'                                "unif", "normal", "binomial" or "aggr_boost"
+#' @param nb_bootst [integer(1)] Number of repetitions required to aggregate the
+#'                            bootstrap samples. Set to ceiling(sqrt(n)) if not
+#'                            provided, with n the number of observations
 #'
 #' @return [data.frame(1)] A \code{data.frame} of a two-classes classification
 #'                         problem
@@ -24,7 +27,8 @@
 #' @importFrom utils packageVersion
 resampling <- function(
   data,
-  strategy
+  strategy,
+  nb_bootst
 ){
   synth_data <- NULL
   sample_boostrepl <- function(tmp_data){
@@ -105,7 +109,7 @@ resampling <- function(
                 replace = TRUE)
               synth_data <- data.frame(cbind(yy, data))
             } else {
-              if(strategy == "rejection"){#-----------------------
+              if(strategy == "aggr_boost"){#-----------------------
                 ## Define functions
                 sample_one_elt <- function(data = data, delta) {
                   # data <- scale(data, center = TRUE, scale = FALSE)
@@ -242,13 +246,8 @@ resampling <- function(
                 #   return(my_sample)
                 # }
                 ## !!!!!!!!!!!!!
-                sample_n_elts <- function(data, nb_rep){
-                  nb_rep <- if(missing(nb_rep)){
-                    ceiling(sqrt(length(data))) * 10
-                  } else {
-                    nb_rep
-                  }
-                  bootstr_sples <- lapply(1:nb_rep, function(i, data){
+                sample_n_elts <- function(data, nb_bootst = nb_bootst){
+                  bootstr_sples <- lapply(1:nb_bootst, function(i, data){
                     sample(x = data, replace = TRUE)
                   }, data = data)
                   bootstr_sples <- Reduce(f = "rbind", x = bootstr_sples)
