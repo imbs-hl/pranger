@@ -115,22 +115,23 @@ resampling <- function(
                   bootstr_sples <- lapply(1:nb_bootst, function(i, data){
                     sample(x = data, replace = TRUE)
                   }, data = data)
-                  bootstr_sples <- Reduce(f = "rbind", x = bootstr_sples)
                   if(class(data) %in% c("character", "factor")){
-                    unlist(apply(1:ncol(bootstr_sples), 2, function(i){
-                      bootstr_sples <- sample(i, size = 1, replace = FALSE)
+                    bootstr_sples <- unlist(lapply(bootstr_sples,
+                                                  function(i){
+                      sample(i, size = 1, replace = FALSE)
                     }))
                   } else {
                     if(class(data) %in% c("integer", "numeric")){
+                      bootstr_sples <- Reduce(f = "rbind", x = bootstr_sples)
                       bootstr_sples <- colMeans(bootstr_sples)
                     } else {
-                      error("Unknown variable type for boostaggr resampling strategy...")
+                      stop("Unknown variable type for boostaggr resampling strategy...")
                     }
                   }
                   return(bootstr_sples)
                 }
                 ##
-                g3  <- function(data, nb_bootst) {
+                g4  <- function(data, nb_bootst) {
                   apply(data, 2, function(i, nb_bootst){
                     sample_n_elts(data = i, nb_bootst = nb_bootst)
                   }, nb_bootst = nb_bootst)
@@ -141,7 +142,7 @@ resampling <- function(
                   c(1,2),
                   c(nrow1, nrow1))
                 synth_data <- data.frame(
-                  cbind(yy, rbind(data, data.frame(g3(data = data,
+                  cbind(yy, rbind(data, data.frame(g4(data = data,
                                                       nb_bootst = nb_bootst))))
                 )
               }
