@@ -117,7 +117,7 @@ resampling <- function(
                   }, data = data)
                   bootstr_sples <- Reduce(f = "rbind", x = bootstr_sples)
                   if(class(data) %in% c("character", "factor")){
-                    bootstr_sples <- apply(1:ncol(bootstr_sples), 2,
+                    bootstr_sples <- apply(bootstr_sples, 2,
                                                   function(i){
                       sample(i, size = 1, replace = FALSE)
                     })
