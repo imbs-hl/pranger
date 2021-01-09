@@ -116,7 +116,17 @@ resampling <- function(
                     sample(x = data, replace = TRUE)
                   }, data = data)
                   bootstr_sples <- Reduce(f = "rbind", x = bootstr_sples)
-                  bootstr_sples <- colMeans(bootstr_sples)
+                  if(class(data) %in% c("character", "factor")){
+                    unlist(apply(1:ncol(bootstr_sples), 2, function(i){
+                      bootstr_sples <- sample(i, size = 1, replace = FALSE)
+                    }))
+                  } else {
+                    if(class(data) %in% c("integer", "numeric")){
+                      bootstr_sples <- colMeans(bootstr_sples)
+                    } else {
+                      error("Unknown variable type for boostaggr resampling strategy...")
+                    }
+                  }
                   return(bootstr_sples)
                 }
                 ##
