@@ -53,7 +53,7 @@ resampling <- function(
                                    rbind(data,
                                          data.frame(
                                            g_boostrepl(tmp_data = data))))
-                             )
+    )
   } else {
     if(strategy == "boostwithoutrepl"){#--------------------------
       nrow1 <- dim(data)[[1]]
@@ -62,7 +62,7 @@ resampling <- function(
                                                data.frame(
                                                  g_boostwithoutrepl(
                                                    tmp_data = data))))
-                               )
+      )
     } else {
       if(strategy == "boostbayes"){#--------------------------
         drawn <- function(x){
@@ -120,17 +120,26 @@ resampling <- function(
                   }, data = data)
                   bootstr_sples <- Reduce(f = "rbind", x = bootstr_sples)
                   if(class(data) %in% c("character", "factor")){
-                    bootstr_sples <- apply(bootstr_sples, 2,
-                                                  function(i){
-                      sample(i, size = 1, replace = FALSE)
-                    })
+                    bootstr_sples <- if(nb_bootst == 1){
+                      c(bootstr_sples)
+                    } else {
+                      bootstr_sples <- apply(bootstr_sples, 2,
+                                             function(i){
+                                               sample(i, size = 1,
+                                                      replace = FALSE)
+                                             })
+                    }
                     c(bootstr_sples)
                   } else {
                     if(class(data) %in% c("integer", "numeric")){
-                      bootstr_sples <- apply(bootstr_sples, 2, function(i){
-                        aggregation(i)
-                      })
-                        # colMeans(bootstr_sples)
+                      bootstr_sples <- if(nb_bootst == 1){
+                        c(bootstr_sples)
+                      } else {
+                        bootstr_sples <- apply(bootstr_sples, 2, function(i){
+                          aggregation(i)
+                        })
+                      }
+                      # colMeans(bootstr_sples)
                     } else {
                       stop("Unknown variable type for boostaggr resampling strategy...")
                     }
