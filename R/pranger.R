@@ -30,7 +30,7 @@ pranger <- function(
   data,
   strategy,
   nb_bootst,
-  aggregation = mean(),
+  aggregation = mean,
   verbose = FALSE,
   ...
 ){

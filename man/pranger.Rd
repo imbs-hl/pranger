@@ -4,7 +4,7 @@
 \alias{pranger}
 \title{Title}
 \usage{
-pranger(data, strategy, nb_bootst, aggregation = mean(), verbose = FALSE, ...)
+pranger(data, strategy, nb_bootst, aggregation = mean, verbose = FALSE, ...)
 }
 \arguments{
 \item{data}{[data.frame(1)] A \code{data.frame} of original dataset}
