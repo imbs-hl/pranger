@@ -9,6 +9,8 @@
 #' @param nb_bootst [integer(1)] Number of repetitions required to aggregate the
 #'                            bootstrap samples. Set to ceiling(sqrt(n)) if not
 #'                            provided, with n the number of observations
+#' @param aggregation [function(1)] Function that is called for aggregation. Only
+#'                                  usable in the case of "boostaggr"
 #'
 #' @return [data.frame(1)] A \code{data.frame} of a two-classes classification
 #'                         problem
@@ -28,7 +30,8 @@
 resampling <- function(
   data,
   strategy,
-  nb_bootst
+  nb_bootst,
+  aggregation
 ){
   synth_data <- NULL
   sample_boostrepl <- function(tmp_data){
@@ -124,7 +127,10 @@ resampling <- function(
                     c(bootstr_sples)
                   } else {
                     if(class(data) %in% c("integer", "numeric")){
-                      bootstr_sples <- colMeans(bootstr_sples)
+                      bootstr_sples <- apply(bootstr_sples, 2, function(i){
+                        aggregation(i)
+                      })
+                        # colMeans(bootstr_sples)
                     } else {
                       stop("Unknown variable type for boostaggr resampling strategy...")
                     }

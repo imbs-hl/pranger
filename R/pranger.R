@@ -9,6 +9,9 @@
 #' @param nb_bootst [integer] Number of repetitions required to aggregate the
 #'                            bootstrap samples. Set to ceiling(sqrt(n)) if not
 #'                            provided, with n the number of observations
+#' @param aggregation [function] Aggregation function in the case of "boostaggr".
+#'                               Default is the mean function. You can pass your
+#'                               on aggregation function
 #'
 #' @return [matrix(1)] Matrix of dissimilarities
 #' @export
@@ -27,6 +30,7 @@ pranger <- function(
   data,
   strategy,
   nb_bootst,
+  aggregation = mean(),
   verbose = FALSE,
   ...
 ){
@@ -42,7 +46,8 @@ pranger <- function(
   }
   data <- resampling(data = data,
                      strategy = strategy,
-                     nb_bootst = nb_bootst)
+                     nb_bootst = nb_bootst,
+                     aggregation = aggregation)
   ## Grow a random forest with ranger
   if(verbose){
     cat("Growing the ranger forest...\n")
