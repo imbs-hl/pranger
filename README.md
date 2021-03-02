@@ -2,7 +2,7 @@
 Cesaire J. K. Fouodo
 
 ### Introduction
-This package computes proximities between observations using unsupervised random forests (URFs).
+This package computes proximities between observations using unsupervised random forests (URFs). Only the deep distance based approach of Fouodo et al. (2021) is actually implemented.
 
 ### Installation
 Installation from Github:
