@@ -1,4 +1,4 @@
-## Proximities with unsupervised random forests
+## Proximities with ranger
 Cesaire J. K. Fouodo
 
 ### Introduction
