@@ -2,7 +2,7 @@
 Cesaire J. K. Fouodo
 
 ### Introduction
-This package computes proximities between observations using unsupervised random forests (URFs).
+This package computes proximities between observations using unsupervised random forests (URFs). Implementation is based on the \texttt{ranger} package.
 
 ### Installation
 Installation from Github:
