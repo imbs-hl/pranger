@@ -1,24 +1,26 @@
-#' Compute distance between two terminal nodes
-#'
-#' @param parent_nodes [data.table(1)] \code{data.table} of parent nodes
-#' @param node1 [integer(1)] A node
-#' @param node2 [integer(1)] A node
-#'
-#' @return [integer(1)] distance between node1 and node2
-#' @export
-#'
-#' @examples
-#' child_nodes <- list(
-#'                     c(1, 0, 3, 5, 0, 0, 7, 0, 0),
-#'                     c(2, 0, 4, 6, 0, 0, 8, 0, 0)
-#'                   )
-#' parent_nodes <- search_parents(ranger_tree = child_nodes)
-#' nd <- nodes_distance(
-#' parent_nodes = parent_nodes,
-#' node1 = 5, node2 = 1)
-#' @author Cesaire J. K. Fouodo
-#' @import data.table
-#' @importFrom utils packageVersion
+##' Pranger
+##'
+##' Compute distance between two terminal nodes
+##'
+##' @param parent_nodes [\code{data.table}] \code{data.table} of parent nodes
+##' @param node1 [\code{integer}] A node
+##' @param node2 [\code{integer}] A node
+##'
+##' @return [\code{integer}] distance between node1 and node2
+##' @export
+##'
+##' @examples
+##' child_nodes <- list(
+##'                     c(1, 0, 3, 5, 0, 0, 7, 0, 0),
+##'                     c(2, 0, 4, 6, 0, 0, 8, 0, 0)
+##'                   )
+##' parent_nodes <- search_parents(ranger_tree = child_nodes)
+##' nd <- nodes_distance(
+##' parent_nodes = parent_nodes,
+##' node1 = 5, node2 = 1)
+##' @author Cesaire J. K. Fouodo
+##' @import data.table
+##' @importFrom utils packageVersion
 nodes_distance <- function(
   parent_nodes,
   node1,

@@ -2,16 +2,16 @@
 % Please edit documentation in R/01_search_parents.R
 \name{search_parents}
 \alias{search_parents}
-\title{Search parent nodes of each terminal node from a tree}
+\title{Pranger}
 \usage{
 search_parents(ranger_tree)
 }
 \arguments{
-\item{ranger_tree}{[ranger.tree] A ranger tree\cr}
+\item{ranger_tree}{[\code{ranger.tree}] A ranger tree\cr}
 }
 \value{
-[\code{data.table(1)}]
-  A \code{data.table} containing parent nodes of each terminal nodes
+[\code{data.table}]
+  A \code{data.table} containing parent nodes of each terminal node
 }
 \description{
 Search parent nodes of each terminal node from a tree

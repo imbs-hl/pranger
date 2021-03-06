@@ -2,22 +2,37 @@
 % Please edit documentation in R/06_predicted_forest_one_tree.R
 \name{predicted_forest_distance_parall}
 \alias{predicted_forest_distance_parall}
-\title{predicted_forest_distance_parall computes dissimilarities for one tree in the forest}
+\title{Pranger}
 \usage{
 predicted_forest_distance_parall(index_tree, predictions, forest)
 }
 \arguments{
-\item{index_tree}{[integer(1)] Index of concerned tree}
+\item{index_tree}{[\code{integer}] Index of concerned tree}
 
-\item{predictions}{[ranger(1)] An ranger predicted object of terminal nodes}
+\item{predictions}{[\code{ranger}] An ranger predicted object of terminal
+nodes}
 
-\item{forest}{[ranger(1)] A ranger forest}
+\item{forest}{[\code{ranger}] A ranger forest}
 }
 \value{
-[matrix(1)] Matrix of dissimilarities for the concerned tree
+[\code{matrix}] Matrix of dissimilarities for the concerned tree
 }
 \description{
-predicted_forest_distance_parall computes dissimilarities for one tree in the forest
+Computes dissimilarities for one tree of the forest
+}
+\examples{
+\dontrun{
+library(ranger)
+set.seed(1234)
+train.idx <- sample(nrow(iris), 2/3 * nrow(iris))
+iris.train <- iris[train.idx, ]
+iris.test <- iris[-train.idx, ]
+rg.iris <- ranger(Species ~ ., data = iris.train)
+pred.iris <- predict(rg.iris, data = iris.test, type = "terminalNodes")
+ iris_dist <- predicted_forest_distance_parall(
+   forest = rg.iris,
+   predictions = pred.iris)
+   }
 }
 \author{
 Cesaire J. K. Fouodo

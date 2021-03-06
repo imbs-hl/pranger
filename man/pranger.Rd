@@ -2,34 +2,41 @@
 % Please edit documentation in R/pranger.R
 \name{pranger}
 \alias{pranger}
-\title{Title}
+\title{Pranger}
 \usage{
 pranger(data, strategy, nb_bootst, aggregation = mean, verbose = FALSE, ...)
 }
 \arguments{
-\item{data}{[data.frame(1)] A \code{data.frame} of original dataset}
+\item{data}{[\code{data.frame}] A \code{data.frame} of original dataset}
 
-\item{strategy}{[character(1)] Name of the resampling strategy to be used. Most be element of
+\item{strategy}{[\code{character}] Name of the resampling strategy to be used. Most be element of
 "boostrepl", "boostwithoutrepl", "boostbayes",
 "unif", "normal", "binomial" or "boostaggr"}
 
-\item{nb_bootst}{[integer] Number of repetitions required to aggregate the
+\item{nb_bootst}{[\code{integer}] Number of repetitions required to aggregate the
 bootstrap samples. Set to ceiling(sqrt(n)) if not
 provided, with n the number of observations}
 
-\item{aggregation}{[function] Aggregation function in the case of "boostaggr".
-Default is the mean function. You can pass your
-on aggregation function}
+\item{aggregation}{[\code{function}] Aggregation function in the case of
+"boostaggr". Default is the mean function.
+You can pass your on aggregation function}
 
-\item{verbose}{[boolean] If TRUE, verbose}
+\item{verbose}{[\code{boolean}] If TRUE, verbose}
 
 \item{...}{further parameters to be passed to \code{ranger}}
 }
 \value{
-[matrix(1)] Matrix of dissimilarities
+[\code{matrix}] Matrix of dissimilarities
 }
 \description{
-Title
+Pranger bases on unsupervised random forests generated with \code{ranger}
+to compute proximities between individuals.Two approaches are supported. The
+first approach of Shi and Horvath (2006) that increases the
+dissimilarity between two individuals to one if they don't belong to the
+same terminal node. The second approach of Fouodo et al. (2021) takes the tree
+depth into account and estimate the dissimilarity between two individuals
+basing on the length of the minimal path between the terminal nodes they
+belong to.
 }
 \examples{
 \dontrun{

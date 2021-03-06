@@ -2,22 +2,22 @@
 % Please edit documentation in R/05_predicted_forest_distance.R
 \name{predicted_forest_distance}
 \alias{predicted_forest_distance}
-\title{predicted_forest_distance Compute dissimilarity matrix over the forest. Node
-that this function will parallelize over the available CPUs nodes.}
+\title{Pranger}
 \usage{
 predicted_forest_distance(predictions, forest)
 }
 \arguments{
-\item{predictions}{[ranger(1)] An ranger predicted object of terminal nodes}
+\item{predictions}{[\code{ranger}] An ranger predicted object of terminal nodes}
 
-\item{forest}{[ranger(1)] A ranger forest}
+\item{forest}{[\code{ranger}] A ranger forest}
 }
 \value{
-[matrix(1)] Matrix of dissimilarities over the forest
+[\code{matrix}] Matrix of dissimilarities over the forest
 }
 \description{
-predicted_forest_distance Compute dissimilarity matrix over the forest. Node
-that this function will parallelize over the available CPUs nodes.
+Computes dissimilarity matrix over the forest. Note
+that this function will parallelize the pairwise computations of the
+distances between the nodes on the available CPUs.
 }
 \examples{
 \dontrun{

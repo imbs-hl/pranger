@@ -2,19 +2,19 @@
 % Please edit documentation in R/02_nodes_distance.R
 \name{nodes_distance}
 \alias{nodes_distance}
-\title{Compute distance between two terminal nodes}
+\title{Pranger}
 \usage{
 nodes_distance(parent_nodes, node1, node2)
 }
 \arguments{
-\item{parent_nodes}{[data.table(1)] \code{data.table} of parent nodes}
+\item{parent_nodes}{[\code{data.table}] \code{data.table} of parent nodes}
 
-\item{node1}{[integer(1)] A node}
+\item{node1}{[\code{integer}] A node}
 
-\item{node2}{[integer(1)] A node}
+\item{node2}{[\code{integer}] A node}
 }
 \value{
-[integer(1)] distance between node1 and node2
+[\code{integer}] distance between node1 and node2
 }
 \description{
 Compute distance between two terminal nodes

@@ -2,18 +2,18 @@
 % Please edit documentation in R/03_tree_distance.R
 \name{tree_distance}
 \alias{tree_distance}
-\title{Compute distances between all terminal nodes of a given tree}
+\title{Pranger}
 \usage{
-tree_distance(ranger_tree = child_nodes)
+tree_distance(ranger_tree)
 }
 \arguments{
-\item{ranger_tree}{[ranger.tree] A ranger tree}
+\item{ranger_tree}{[\code{ranger.tree}] A ranger tree}
 }
 \value{
-[matrix(1)] A matrix of dissimilarities
+[\code{matrix}] A matrix of dissimilarities
 }
 \description{
-Compute distances between all terminal nodes of a given tree
+Compute distances between all terminal nodes for a given tree
 }
 \examples{
 child_nodes <- list(

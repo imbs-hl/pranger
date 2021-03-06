@@ -2,23 +2,22 @@
 % Please edit documentation in R/04_predicted_tree_distance.R
 \name{predicted_tree_distance}
 \alias{predicted_tree_distance}
-\title{predicted_tree_distance uses predicted terminal nodes of a tree to compute
-the dissimilarity matrix}
+\title{Pranger}
 \usage{
 predicted_tree_distance(tree_index, forest, predictions)
 }
 \arguments{
-\item{tree_index}{[integer(1)] A ranger tree}
+\item{tree_index}{[\code{integer}] A ranger tree}
 
-\item{forest}{[ranger(1)] A ranger forest}
+\item{forest}{[\code{ranger}] A ranger forest}
 
-\item{predictions}{[ranger(1)] Predictions object from class ranger}
+\item{predictions}{[\code{ranger}] Predictions object from class ranger}
 }
 \value{
-[matrix(1)] A matrix of dissimilarities
+[\code{matrix}] A matrix of dissimilarities
 }
 \description{
-predicted_tree_distance uses predicted terminal nodes of a tree to compute
+Uses predicted terminal nodes of a tree to compute
 the dissimilarity matrix
 }
 \examples{

@@ -6,13 +6,15 @@ Author: Cesaire J. K. Fouodo
 Maintainer: Cesaire J. K. Fouodo <cesaire.kuetefouodo@uni-luebeck.de>
 Description: Compute dissimilarities as described from the author's paper
     Use four spaces when indenting paragraphs within the Description.
-Depends:
+Imports:
     data.table,
-    ranger,
     gtools,
     parallel,
-    stats,
-    bayesboot
+    hdrcde,
+    bayesboot,
+    stats
+Depends:
+    ranger
 License: GPL
 RoxygenNote: 7.1.1
 URL: https://github.com/imbs-hl/pranger

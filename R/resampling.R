@@ -1,32 +1,33 @@
-#' resampling builts a two-classes classification problem using a resampling
-#'            strategy. This implementation is comparable to
-#'            that of Shi and Hovarth (2006)
-#'
-#' @param data [data.frame(1)] A \code{data.frame} of original dataset
-#' @param strategy [character(1)] Name of strategy to be used. Most be element of
-#'                                "boostrepl", "boostwithoutrepl", "boostbayes",
-#'                                "unif", "normal", "binomial" or "boostaggr"
-#' @param nb_bootst [integer(1)] Number of repetitions required to aggregate the
-#'                            bootstrap samples. Set to ceiling(sqrt(n)) if not
-#'                            provided, with n the number of observations
-#' @param aggregation [function(1)] Function that is called for aggregation. Only
-#'                                  usable in the case of "boostaggr"
-#'
-#' @return [data.frame(1)] A \code{data.frame} of a two-classes classification
-#'                         problem
-#' @export
-#'
-#' @examples
-#'     set.seed(1234)
-#'    data_synt <- resampling(
-#'                     data = data.frame(x = rnorm(10),
-#'                                       y = rnorm(10)),
-#'                     strategy = "boostrepl"
-#'                   )
-#' @import bayesboot
-#' @author Cesaire J. K. Fouodo
-#' @import gtools
-#' @importFrom utils packageVersion
+##' Pranger
+##'
+##' Synthesize a two-classes classification problem given a resampling
+##'            strategy.
+##'
+##' @param data [\code{data.frame}] A \code{data.frame} of original dataset
+##' @param strategy [\code{character}] Name of strategy to be used. Most be element of
+##'                                "boostrepl", "boostwithoutrepl", "boostbayes",
+##'                                "unif", "normal", "binomial" or "boostaggr"
+##' @param nb_bootst [\code{integer}] Number of repetitions required to aggregate the
+##'                            bootstrap samples. Set to ceiling(sqrt(n)) if not
+##'                            provided, with n the number of observations
+##' @param aggregation [\code{function}] Function that is called for aggregation. Only
+##'                                  usable in the case of "boostaggr"
+##'
+##' @return [\code{data.frame}] A \code{data.frame} of a synthetic two-classes classification
+##'                         problem
+##' @export
+##'
+##' @examples
+##'     set.seed(1234)
+##'    data_synt <- resampling(
+##'                     data = data.frame(x = rnorm(10),
+##'                                       y = rnorm(10)),
+##'                     strategy = "boostrepl"
+##'                   )
+##' @import bayesboot
+##' @author Cesaire J. K. Fouodo
+##' @import gtools
+##' @importFrom utils packageVersion
 resampling <- function(
   data,
   strategy,

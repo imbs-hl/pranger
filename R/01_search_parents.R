@@ -1,20 +1,22 @@
-#' Search parent nodes of each terminal node from a tree
-#'
-#' @param ranger_tree [ranger.tree] A ranger tree\cr
-#'
-#' @return [\code{data.table(1)}]
-#'   A \code{data.table} containing parent nodes of each terminal nodes
-#' @export
-#'
-#' @examples
-#'child_nodes <- list(
-#'                     c(1, 0, 3, 5, 0, 0, 7, 0, 0),
-#'                     c(2, 0, 4, 6, 0, 0, 8, 0, 0)
-#'                   )
-#'  parent_nodes <- search_parents(ranger_tree = child_nodes)
-#' @author Cesaire J. K. Fouodo
-#' @import data.table
-#' @importFrom utils packageVersion
+##' Pranger
+##'
+##' Search parent nodes of each terminal node from a tree
+##'
+##' @param ranger_tree [\code{ranger.tree}] A ranger tree\cr
+##'
+##' @return [\code{data.table}]
+##'   A \code{data.table} containing parent nodes of each terminal node
+##' @export
+##'
+##' @examples
+##'child_nodes <- list(
+##'                     c(1, 0, 3, 5, 0, 0, 7, 0, 0),
+##'                     c(2, 0, 4, 6, 0, 0, 8, 0, 0)
+##'                   )
+##'  parent_nodes <- search_parents(ranger_tree = child_nodes)
+##' @author Cesaire J. K. Fouodo
+##' @import data.table
+##' @importFrom utils packageVersion
 search_parents <- function(
   ranger_tree
 ){

@@ -1,27 +1,29 @@
-#' Compute distances between all terminal nodes of a given tree
-#'
-#' @param ranger_tree [ranger.tree] A ranger tree
-#'
-#' @return [matrix(1)] A matrix of dissimilarities
-#' @export
-#'
-#' @examples
-#' child_nodes <- list(
-#'                     c(1, 0, 3, 5, 0, 0, 7, 0, 0),
-#'                     c(2, 0, 4, 6, 0, 0, 8, 0, 0)
-#'                   )
-#' parent_nodes <- search_parents(ranger_tree = child_nodes)
-#' nd <- nodes_distance(
-#' parent_nodes = parent_nodes,
-#' node1 = 5, node2 = 1)
-#' tree_distance(
-#' ranger_tree = child_nodes
-#' )
-#' @author Cesaire J. K. Fouodo
-#' @import gtools
-#' @importFrom utils packageVersion
+##' Pranger
+##'
+##' Compute distances between all terminal nodes for a given tree
+##'
+##' @param ranger_tree [\code{ranger.tree}] A ranger tree
+##'
+##' @return [\code{matrix}] A matrix of dissimilarities
+##' @export
+##'
+##' @examples
+##' child_nodes <- list(
+##'                     c(1, 0, 3, 5, 0, 0, 7, 0, 0),
+##'                     c(2, 0, 4, 6, 0, 0, 8, 0, 0)
+##'                   )
+##' parent_nodes <- search_parents(ranger_tree = child_nodes)
+##' nd <- nodes_distance(
+##' parent_nodes = parent_nodes,
+##' node1 = 5, node2 = 1)
+##' tree_distance(
+##' ranger_tree = child_nodes
+##' )
+##' @author Cesaire J. K. Fouodo
+##' @import gtools
+##' @importFrom utils packageVersion
 tree_distance <- function(
-  ranger_tree = child_nodes
+  ranger_tree
 ){
   ## Search parents
   parent_nodes <- search_parents(ranger_tree = ranger_tree)
