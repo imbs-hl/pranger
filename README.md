@@ -21,4 +21,4 @@ pranger(data = iris[ , -5], strategy = "boostrepl")
 
 ### References
 * Shi, T., Hovarth and S. (2006). Unsupervised Learning with Random Forest Predictors. Journal of Computational and Graphical Statistics 15 (1): 118–38.
-* Fouodo, C.J.K, Szymczak, S., Wright, N.M. and Koenig R.I. (2020). The use of tree depth improves unsupervised random forests dissimilarities. xx: xx-xx.
+* Fouodo, C.J.K, Szymczak, S., Wright, N.M. and Koenig R.I. (2020). The use of tree depth improves unsupervised random forests dissimilarities. xxxx xx(xx): xx-xx.
