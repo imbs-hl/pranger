@@ -4,7 +4,15 @@
 \alias{pranger}
 \title{Pranger}
 \usage{
-pranger(data, strategy, nb_bootst, aggregation = mean, verbose = FALSE, ...)
+pranger(
+  data,
+  strategy,
+  nb_bootst = 1,
+  approach = "deep",
+  aggregation = mean,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data}{[\code{data.frame}] A \code{data.frame} of original dataset}
@@ -16,6 +24,10 @@ pranger(data, strategy, nb_bootst, aggregation = mean, verbose = FALSE, ...)
 \item{nb_bootst}{[\code{integer}] Number of repetitions required to aggregate the
 bootstrap samples. Set to ceiling(sqrt(n)) if not
 provided, with n the number of observations}
+
+\item{approach}{[\code{character}] One of "shi" or "deep". If "shi", then
+the approach of Shi and  Hovarth (2006) is called to compute dissimilarities.
+Else, if "deep" the approach of Fouodo et al. (2021) is called.}
 
 \item{aggregation}{[\code{function}] Aggregation function in the case of
 "boostaggr". Default is the mean function.

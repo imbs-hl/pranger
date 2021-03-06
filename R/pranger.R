@@ -21,8 +21,14 @@
 ##' @param aggregation [\code{function}] Aggregation function in the case of
 ##'                               "boostaggr". Default is the mean function.
 ##'                               You can pass your on aggregation function
+##' @param approach [\code{character}] One of "shi" or "deep". If "shi", then
+##' the approach of Shi and  Hovarth (2006) is called to compute dissimilarities.
+##' Else, if "deep" the approach of Fouodo et al. (2021) is called.
 ##'
-##' @return [\code{matrix}] Matrix of dissimilarities
+##' @return [\code{matrix}] Matrix of dissimilarities.
+##'                         Note: You can use the function \code{cleandist} to
+##'                         convert the dissimilarity matrix into a distance
+##'                         matrix
 ##' @export
 ##'
 ##' @examples
@@ -38,7 +44,8 @@
 pranger <- function(
   data,
   strategy,
-  nb_bootst,
+  nb_bootst = 1,
+  approach = "deep",
   aggregation = mean,
   verbose = FALSE,
   ...
@@ -75,7 +82,11 @@ pranger <- function(
     cat("Calculating dissimilarities...\n")
   }
   ## Calculate dissimilarities between observations
-  forest_dist <- predicted_forest_distance(forest = ranger_forest,
-                                           predictions = ranger_pred)
+  forest_dist <- if(approach == "deep"){
+    predicted_forest_distance(forest = ranger_forest,
+                              predictions = ranger_pred)
+  } else {
+    shi_ranger_forest(predictions = ranger_pred)
+  }
   return(forest_dist)
 }
