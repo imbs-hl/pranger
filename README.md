@@ -32,7 +32,7 @@ mds_iris_shi$class <- iris[ , 5]
 names(mds_iris_shi) <- c("PC1", "PC2", "Species")
 mds_iris_shi$Method <- "URF Shi"
 ```
-Using the Fouodo (2021) URF based method two compute dissimilarities. Please use the function ```r predicted_tree_distance``` for parallel computing for each tree.
+Using the Fouodo (2021) URF based method two compute dissimilarities. Please use the function ```predicted_tree_distance``` for parallel computing for each tree.
 
 ```R 
 ## URF dissimilarities with the deep distance
