@@ -15,7 +15,7 @@ CRAN release coming soon.
 ### Usage
 For usage in R, see ?pranger in R. Most importantly, see the Examples section. As a first example you could try 
 
-### An iluustration using the iris dataset
+### An illustrative example with the iris dataset
 ```R  
 library(ggplot2)
 ```
@@ -23,7 +23,7 @@ Using the Shi and Hovarth (2006) URF based method two compute dissimilarities.
 ```R 
 ## URF dissimilarities with the Shi distance
 iris_diss_shi <- pranger(data = iris[ , -5],
-                    strategy = "boostrepl", num.trees = 250,
+                    strategy = "boostrepl", num.trees = 100,
                     min.node.size = 15, approach = "shi", seed = 123)
 iris_dist_shi <- pranger::cleandist(iris_diss_shi)
 ## MDS on the Shi and Hovarth (2006) dissimilarities
@@ -38,7 +38,7 @@ Using the Fouodo (2021) URF based method two compute dissimilarities. Please use
 ## URF dissimilarities with the deep distance
 iris_diss_deep <- pranger(data = iris[ , -5],
                     strategy = "boostrepl", nb_bootst = 5,
-                    aggregation = mean, num.trees = 250,
+                    aggregation = mean, num.trees = 100,
                     min.node.size = 15, approach = "deep", seed = 123)
 iris_dist_deep <- pranger::cleandist(iris_diss_deep)
 ## MDS on the deep dissimilarities
