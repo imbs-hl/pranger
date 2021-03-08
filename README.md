@@ -79,4 +79,4 @@ print(iris_plot)
 
 ### References
 * Shi, T., Hovarth and S. (2006). Unsupervised Learning with Random Forest Predictors. Journal of Computational and Graphical Statistics 15 (1): 118–38.
-* Fouodo, K.C.J, Szymczak, S., Wright, N.M. and König R.I. (2020). Improving unsupervised random forests with new proximity measure and a modified resampling strategy. xxxx xx(xx): xx-xx.
+* Fouodo, K.C.J, Szymczak, S., Wright, N.M. and König R.I. (2021). Improving unsupervised random forests with new proximity measure and a modified resampling strategy. xxxx xx(xx): xx-xx.
