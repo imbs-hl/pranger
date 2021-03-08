@@ -73,9 +73,9 @@ pranger <- function(
   } else {
     if(is.null(nb_bootst)){
       nb_bootst <- ceiling(sqrt(nrow(data)))
+      assert_int(nb_bootst)
     }
   }
-  assert_int(nb_bootst)
   ## approach must be one of deep of shi
   assert_choice(approach, choices = c("deep", "shi"))
   ## aggregation must be a function
