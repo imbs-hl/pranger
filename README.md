@@ -42,7 +42,7 @@ Using the Fouodo (2021) URF based method two compute dissimilarities. Please use
 ```R 
 ## URF dissimilarities with the deep distance
 iris_diss_deep <- pranger(data = iris[ , -5],
-                    strategy = "boostrepl", nb_bootst = 5,
+                    strategy = "boostrepl",
                     aggregation = mean, num.trees = 100,
                     min.node.size = 15, approach = "deep", seed = 123)
 iris_dist_deep <- pranger::cleandist(iris_diss_deep)
