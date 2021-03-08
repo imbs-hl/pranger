@@ -2,7 +2,7 @@
 Cesaire J. K. Fouodo
 
 ### Introduction
-Pranger bases on unsupervised random forests (URF) generated with ranger to compute proximities between individuals.Two approaches are supported. The first approach of Shi and Horvath (2006) that increases the dissimilarity between two individuals to one if they don't belong to the same terminal node. The second approach of Fouodo et al. (2021) takes the tree depth into account and estimate the dissimilarity between two individuals basing on the length of the minimal path between the terminal nodes they belong to.
+Pranger bases on unsupervised random forests (URF) generated with ranger to compute proximities between individuals.Two approaches are supported. The first approach of Shi and Horvath (2006) that increases the dissimilarity between two individuals to one if they don't belong to the same terminal node. The second approach of Fouodo et al. (2021) takes the tree depth into account and estimates the dissimilarity between two individuals basing on the length of the minimal path between the terminal nodes they belong to.
 
 ### Installation
 Installation from Github:
