@@ -69,7 +69,7 @@ pranger <- function(
                                      ))
   ## nb_bootst must be either null or integer
   if(strategy != "boostaggr"){
-    if(!is.null(strategy)){
+    if(!is.null(nb_bootst)){
       warning(sprintf("'nb_bootst' not required for strategy: '%s'", strategy))
     }
   } else {
