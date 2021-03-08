@@ -25,9 +25,8 @@
 ##'                     strategy = "boostrepl"
 ##'                   )
 ##' @import bayesboot
-##' @author Cesaire J. K. Fouodo
-##' @import gtools
 ##' @importFrom utils packageVersion
+##' @author Cesaire J. K. Fouodo
 resampling <- function(
   data,
   strategy,

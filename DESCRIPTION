@@ -12,6 +12,7 @@ Imports:
     parallel,
     hdrcde,
     bayesboot,
+    checkmate,
     stats
 Depends:
     ranger

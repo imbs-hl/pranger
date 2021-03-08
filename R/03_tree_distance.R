@@ -20,7 +20,7 @@
 ##' ranger_tree = child_nodes
 ##' )
 ##' @author Cesaire J. K. Fouodo
-##' @import gtools
+##' @importFrom gtools combinations
 ##' @importFrom utils packageVersion
 tree_distance <- function(
   ranger_tree

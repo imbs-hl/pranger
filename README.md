@@ -19,7 +19,8 @@ For usage in R, see ?pranger in R. Most importantly, see the Examples section. A
 ```R  
 library(ggplot2)
 ```
-Using the Shi and Hovarth (2006) URF based method two compute dissimilarities.
+Using the Shi and Hovarth (2006) URF based method two compute dissimilarities. Please, use the function ```shi_ranger_one_tree``` for parallel computing over the trees. That is, you have to synthesize the two-classes classification problem using ```resampling```, grow the generate the ```ranger``` model and predict the Terminal nodes for the original observations. See ?```shi_ranger_one_tree``` for more details.
+ 
 ```R 
 ## URF dissimilarities with the Shi distance
 iris_diss_shi <- pranger(data = iris[ , -5],

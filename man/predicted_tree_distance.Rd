@@ -9,7 +9,7 @@ predicted_tree_distance(tree_index, forest, predictions)
 \arguments{
 \item{tree_index}{[\code{integer}] A ranger tree}
 
-\item{forest}{[\code{ranger}] A ranger forest}
+\item{forest}{[\code{ranger}] A ranger object}
 
 \item{predictions}{[\code{ranger}] Predictions object from class ranger}
 }

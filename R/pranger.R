@@ -10,7 +10,8 @@
 ##' belong to.
 ##'
 ##' @param data [\code{data.frame}] A \code{data.frame} of original dataset
-##' @param strategy [\code{character}] Name of the resampling strategy to be used. Most be element of
+##' @param strategy [\code{character}] Name of the resampling strategy to be used.
+##'                                    Most be element of
 ##'                                "boostrepl", "boostwithoutrepl", "boostbayes",
 ##'                                "unif", "normal", "binomial" or "boostaggr"
 ##' @param verbose [\code{boolean}] If TRUE, verbose
@@ -39,17 +40,51 @@
 ##'                              data = iris[ , -5],
 ##'                              strategy = "boostrepl")
 ##'}
+##' @import checkmate
 ##' @author Cesaire J. K. Fouodo
-##' @importFrom utils packageVersion
 pranger <- function(
   data,
   strategy,
-  nb_bootst = 1,
+  nb_bootst = NULL,
   approach = "deep",
   aggregation = mean,
   verbose = FALSE,
   ...
 ){
+  ## Begin of parameter check
+  assertions <- makeAssertCollection()
+  ## data must be a data.frame
+  assert_data_frame(data, types = c("numeric",
+                                    "integer",
+                                    "character",
+                                    "factor"))
+  ## strategy must be one of the listed string
+  assert_choice(strategy, choices = c("boostrepl",
+                                     "boostwithoutrepl",
+                                     "boostbayes",
+                                     "unif",
+                                     "normal",
+                                     "binomial",
+                                     "boostaggr"
+                                     ))
+  ## nb_bootst must be either null or integer
+  if(strategy != "boostaggr"){
+    assert_null(nb_bootst)
+  } else {
+    if(is.null(nb_bootst)){
+      nb_bootst <- ceiling(sqrt(nrow(data)))
+    }
+  }
+  assert_int(nb_bootst)
+  ## approach must be one of deep of shi
+  assert_choice(approach, choices = c("deep", "shi"))
+  ## aggregation must be a function
+  assert_function(aggregation)
+  ## Verbose must be a flag
+  assert_flag(verbose)
+  ## Report all assertions
+  reportAssertions(assertions)
+  ## End of parameter check
   n <- nrow(data)
   nb_bootst <- if(missing(nb_bootst)){
     ceiling(log(nrow(data)))

@@ -4,10 +4,10 @@
 \alias{shi_ranger_one_tree}
 \title{Pranger}
 \usage{
-shi_ranger_one_tree(tree = 1, predictions)
+shi_ranger_one_tree(tree_index = 1, predictions)
 }
 \arguments{
-\item{tree}{[\code{integer}] Tree index for which the dissimilarity matrix is required}
+\item{tree_index}{[\code{integer}] Tree index for which the dissimilarity matrix is required}
 
 \item{predictions}{[\code{predict.ranger}] Terminal nodes predicted by
 \code{predict.ranger}}
@@ -29,6 +29,6 @@ iris.train <- iris[train.idx, ]
 iris.test <- iris[-train.idx, ]
 rg.iris <- ranger(Species ~ ., data = iris.train)
 pred.iris <- predict(rg.iris, data = iris.test, type = "terminalNodes")
-shi_dist <- shi_ranger_one_tree(tree = 1,
+shi_dist <- shi_ranger_one_tree(tree_index = 1,
                  predictions = pred.iris)
 }

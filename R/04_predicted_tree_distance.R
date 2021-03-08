@@ -4,7 +4,7 @@
 ##' the dissimilarity matrix
 ##'
 ##' @param tree_index [\code{integer}] A ranger tree
-##' @param forest [\code{ranger}] A ranger forest
+##' @param forest [\code{ranger}] A ranger object
 ##' @param predictions [\code{ranger}] Predictions object from class ranger
 ##'
 ##' @return [\code{matrix}] A matrix of dissimilarities
@@ -21,13 +21,25 @@
 ##'    tree_index = 1,
 ##'    forest = rg.iris,
 ##'    predictions = pred.iris)
-##' @author Cesaire J. K. Fouodo
 ##' @import ranger
+##' @import checkmate
+##' @author Cesaire J. K. Fouodo
 predicted_tree_distance <- function(
   tree_index,
   forest,
   predictions
 ){
+  ## Begin of parameter check
+  assertions <- makeAssertCollection()
+  ## tree_index must be an integer
+  assert_int(tree_index)
+  ## forest must be from class ranger.forest
+  assert_class(forest, classes = c("ranger"))
+  ## predictions must be from class ranger.prediction
+  assert_class(predictions, classes = c("ranger.prediction"))
+  ## Report all assertions
+  reportAssertions(assertions)
+  ## End of parameter check
   nodes <- predictions$predictions[ , tree_index]
   tree <- forest$forest$child.nodeIDs[[tree_index]]
   ## Distance between all terminal nodes

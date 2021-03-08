@@ -7,7 +7,7 @@
 pranger(
   data,
   strategy,
-  nb_bootst = 1,
+  nb_bootst = NULL,
   approach = "deep",
   aggregation = mean,
   verbose = FALSE,
@@ -17,7 +17,8 @@ pranger(
 \arguments{
 \item{data}{[\code{data.frame}] A \code{data.frame} of original dataset}
 
-\item{strategy}{[\code{character}] Name of the resampling strategy to be used. Most be element of
+\item{strategy}{[\code{character}] Name of the resampling strategy to be used.
+    Most be element of
 "boostrepl", "boostwithoutrepl", "boostbayes",
 "unif", "normal", "binomial" or "boostaggr"}
 
@@ -38,7 +39,10 @@ You can pass your on aggregation function}
 \item{...}{further parameters to be passed to \code{ranger}}
 }
 \value{
-[\code{matrix}] Matrix of dissimilarities
+[\code{matrix}] Matrix of dissimilarities.
+                        Note: You can use the function \code{cleandist} to
+                        convert the dissimilarity matrix into a distance
+                        matrix
 }
 \description{
 Pranger bases on unsupervised random forests generated with \code{ranger}
