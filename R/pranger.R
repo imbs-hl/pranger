@@ -72,6 +72,9 @@ pranger <- function(
     if(!is.null(nb_bootst)){
       warning(sprintf("'nb_bootst' not required for strategy: '%s'", strategy))
     }
+      if(!missing(aggregation)){
+        warning(sprintf("'aggregation' not required for strategy: '%s'", strategy))
+      }
   } else {
     if(is.null(nb_bootst)){
       nb_bootst <- ceiling(sqrt(nrow(data)))
