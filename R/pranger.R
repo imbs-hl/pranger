@@ -69,12 +69,14 @@ pranger <- function(
                                      ))
   ## nb_bootst must be either null or integer
   if(strategy != "boostaggr"){
-    assert_null(nb_bootst)
+    if(!is.null(strategy)){
+      warning(sprintf("'nb_bootst' not required for strategy: '%s'", strategy))
+    }
   } else {
     if(is.null(nb_bootst)){
       nb_bootst <- ceiling(sqrt(nrow(data)))
-      assert_int(nb_bootst)
     }
+    assert_int(nb_bootst)
   }
   ## approach must be one of deep of shi
   assert_choice(approach, choices = c("deep", "shi"))
