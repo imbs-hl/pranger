@@ -30,7 +30,6 @@ Using the Shi and Hovarth (2006) URF based method two compute dissimilarities. P
 iris_diss_shi <- pranger(data = iris[ , -5],
                     strategy = "boostrepl", num.trees = 100,
                     min.node.size = 15, approach = "shi", seed = 123)
-iris_dist_shi <- pranger::cleandist(iris_diss_shi)
 ## MDS on the Shi and Hovarth (2006) dissimilarities
 mds_iris_shi <- data.frame(cmdscale(iris_dist_shi, k = 2))
 mds_iris_shi$class <- iris[ , 5]
@@ -43,9 +42,8 @@ Using the Fouodo (2021) URF based method two compute dissimilarities. Please use
 ## URF dissimilarities with the deep distance
 iris_diss_deep <- pranger(data = iris[ , -5],
                     strategy = "boostrepl",
-                    aggregation = mean, num.trees = 100,
+                    num.trees = 100,
                     min.node.size = 15, approach = "deep", seed = 123)
-iris_dist_deep <- pranger::cleandist(iris_diss_deep)
 ## MDS on the deep dissimilarities
 mds_iris_deep <- data.frame(cmdscale(iris_dist_deep, k = 2))
 mds_iris_deep$class <- iris[ , 5]

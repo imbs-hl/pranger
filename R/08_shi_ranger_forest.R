@@ -30,5 +30,6 @@ shi_ranger_forest <- function(predictions){
     dist_shi_ranger <- Reduce(f = "cbind", x = tmp)
   })
   forest_dist <- Reduce(f = "+", x = forest_dist)
+  forest_dist <- cleandist(forest_dist)
   return(forest_dist)
 }
