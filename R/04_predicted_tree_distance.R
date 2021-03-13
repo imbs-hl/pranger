@@ -64,11 +64,11 @@ predicted_tree_distance <- function(
   all_node_dists$i.dist <- NULL
   all_node_dists <- all_node_dists[order(index, decreasing = FALSE), ]
   dist_mat <- matrix(
-    all_node_dists$dist,
+    scale(all_node_dists$dist, center = FALSE, scale = TRUE),
     nrow = length(nodes),
     ncol = length(nodes),
     byrow = TRUE
   )
-  dist_mat[dist_mat == 0] <- -1
+  dist_mat <- dist_mat + (dist_mat !=0)
   return(dist_mat)
 }

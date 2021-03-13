@@ -28,10 +28,10 @@ Using the Shi and Hovarth (2006) URF based method two compute dissimilarities. P
 ```R 
 ## URF dissimilarities with the Shi distance
 iris_diss_shi <- pranger(data = iris[ , -5],
-                    strategy = "boostrepl", num.trees = 100,
+                    strategy = "boostaggr", num.trees = 100,
                     min.node.size = 15, approach = "shi", seed = 123)
 ## MDS on the Shi and Hovarth (2006) dissimilarities
-mds_iris_shi <- data.frame(cmdscale(iris_dist_shi, k = 2))
+mds_iris_shi <- data.frame(cmdscale(iris_diss_shi, k = 2))
 mds_iris_shi$class <- iris[ , 5]
 names(mds_iris_shi) <- c("PC1", "PC2", "Species")
 mds_iris_shi$Method <- "URF Shi"
@@ -41,11 +41,11 @@ Using the Fouodo (2021) URF based method two compute dissimilarities. Please use
 ```R 
 ## URF dissimilarities with the deep distance
 iris_diss_deep <- pranger(data = iris[ , -5],
-                    strategy = "boostrepl",
+                    strategy = "boostaggr",
                     num.trees = 100,
                     min.node.size = 15, approach = "deep", seed = 123)
 ## MDS on the deep dissimilarities
-mds_iris_deep <- data.frame(cmdscale(iris_dist_deep, k = 2))
+mds_iris_deep <- data.frame(cmdscale(iris_diss_deep, k = 2))
 mds_iris_deep$class <- iris[ , 5]
 names(mds_iris_deep) <- c("PC1", "PC2", "Species")
 mds_iris_deep$Method <- "URF Deep"

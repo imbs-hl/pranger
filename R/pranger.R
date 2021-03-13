@@ -25,6 +25,7 @@
 ##' @param approach [\code{character}] One of "shi" or "deep". If "shi", then
 ##' the approach of Shi and  Hovarth (2006) is called to compute dissimilarities.
 ##' Else, if "deep" the approach of Fouodo et al. (2021) is called.
+##' @param seed [\code{integer}] Seed
 ##'
 ##' @return [\code{matrix}] Matrix of dissimilarities.
 ##'                         Note: You can use the function \code{cleandist} to
@@ -49,6 +50,7 @@ pranger <- function(
   approach = "deep",
   aggregation = mean,
   verbose = FALSE,
+  seed = NULL,
   ...
 ){
   ## Begin of parameter check
@@ -100,6 +102,8 @@ pranger <- function(
   if(verbose){
     cat("Resampling to creating a two-classes problem...\n")
   }
+  if(!is.null(seed))
+  set.seed(seed = seed)
   data <- resampling(data = data,
                      strategy = strategy,
                      nb_bootst = nb_bootst,
