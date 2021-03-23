@@ -7,10 +7,12 @@
 pranger(
   data,
   strategy,
+  oob = FALSE,
   nb_bootst = NULL,
   approach = "deep",
   aggregation = mean,
   verbose = FALSE,
+  seed = NULL,
   ...
 )
 }
@@ -21,6 +23,9 @@ pranger(
     Most be element of
 "boostrepl", "boostwithoutrepl", "boostbayes",
 "unif", "normal", "binomial" or "boostaggr"}
+
+\item{oob}{[\code{boolean}] If TRUE, dissimilarities are computed using
+out of bag observations only.}
 
 \item{nb_bootst}{[\code{integer}] Number of repetitions required to aggregate the
 bootstrap samples. Set to ceiling(sqrt(n)) if not
@@ -35,6 +40,8 @@ Else, if "deep" the approach of Fouodo et al. (2021) is called.}
 You can pass your on aggregation function}
 
 \item{verbose}{[\code{boolean}] If TRUE, verbose}
+
+\item{seed}{[\code{integer}] Seed}
 
 \item{...}{further parameters to be passed to \code{ranger}}
 }

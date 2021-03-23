@@ -15,7 +15,6 @@
 ##'                                "boostrepl", "boostwithoutrepl", "boostbayes",
 ##'                                "unif", "normal", "binomial" or "boostaggr"
 ##' @param verbose [\code{boolean}] If TRUE, verbose
-##' @param ... further parameters to be passed to \code{ranger}
 ##' @param nb_bootst [\code{integer}] Number of repetitions required to aggregate the
 ##'                            bootstrap samples. Set to ceiling(sqrt(n)) if not
 ##'                            provided, with n the number of observations
@@ -26,6 +25,9 @@
 ##' the approach of Shi and  Hovarth (2006) is called to compute dissimilarities.
 ##' Else, if "deep" the approach of Fouodo et al. (2021) is called.
 ##' @param seed [\code{integer}] Seed
+##' @param ... further parameters to be passed to \code{ranger}
+##' @param oob [\code{boolean}] If TRUE, dissimilarities are computed using
+##'                             out of bag observations only.
 ##'
 ##' @return [\code{matrix}] Matrix of dissimilarities.
 ##'                         Note: You can use the function \code{cleandist} to
@@ -46,6 +48,7 @@
 pranger <- function(
   data,
   strategy,
+  oob = FALSE,
   nb_bootst = NULL,
   approach = "deep",
   aggregation = mean,
@@ -89,6 +92,8 @@ pranger <- function(
   assert_function(aggregation)
   ## Verbose must be a flag
   assert_flag(verbose)
+  ## oob must be a flag
+  assert_flag(oob)
   ## Report all assertions
   reportAssertions(assertions)
   ## End of parameter check
@@ -114,6 +119,7 @@ pranger <- function(
   }
   ranger_forest <- ranger(data = data,
                           dependent.variable.name = "yy",
+                          keep.inbag = TRUE,
                           ...)
   if(verbose){
     cat("ranger predictions...\n")
@@ -122,6 +128,20 @@ pranger <- function(
   ranger_pred <- predict(object = ranger_forest,
                          data = data[1:n, -1],
                          type = "terminalNodes")
+  ## Get oob observations if required
+  oob_pred <- if(oob){
+    lapply(1:ranger_forest$num.trees, function(index){
+      tmp_pred <- ranger_pred$predictions
+      null_index <- ranger_forest$inbag.counts[[index]][1:n]
+      tmp_pred[null_index != 0, index] <- rep(0, sum(null_index != 0))
+      return(tmp_pred[ , index])
+    })
+  } else {
+    lapply(1:ranger_forest$num.trees, function(index){
+    return(ranger_pred$predictions[ , index])
+    })
+  }
+  ranger_pred$predictions <- Reduce(f = "cbind", x = oob_pred)
   if(verbose){
     cat("Calculating dissimilarities...\n")
   }
