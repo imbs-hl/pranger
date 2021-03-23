@@ -34,12 +34,6 @@ nodes_distance <- function(
     deep1 <- which(parent1 == tmp)[1] - 1
     deep2 <- which(parent2 == tmp)[1] - 1
     node_dist <- deep1 + deep2 - 1
-    # node_dist <- if(length(parent1) == length(parent2)){
-    #   deep1 + deep2 - 1
-    # } else {
-    #   (deep1 + deep2 - 1) * sum(parent_nodes$node %in% intersect(parent1, parent2))
-    # }
-    # node_dist <- (deep1 + deep2 - 1) * (1 / length(intersect(parent1, parent2)))
   }
   return(node_dist)
 }
