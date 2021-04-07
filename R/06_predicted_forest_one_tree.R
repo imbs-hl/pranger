@@ -35,5 +35,6 @@ predicted_forest_distance_parall <- function(
     tree_index = index_tree,
     forest = forest,
     predictions = predictions)
+  data_dist[is.na(data_dist)] <- 0
   return(data_dist)
 }

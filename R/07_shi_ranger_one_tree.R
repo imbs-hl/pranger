@@ -8,6 +8,8 @@
 ##' @param tree_index [\code{integer}] Tree index for which the dissimilarity matrix is required
 ##' @param predictions [\code{predict.ranger}] Terminal nodes predicted by
 ##'                                    \code{predict.ranger}
+##' @param init_dist [\code{integer}] Initial distance between in-of-bag
+##'                                   individual. Required if oob = TRUE.
 ##'
 ##' @return [\code{matrix}] Dissimilarity matrix according to Shi and Hovarth (2006)
 ##' @export
@@ -22,7 +24,8 @@
 ##' pred.iris <- predict(rg.iris, data = iris.test, type = "terminalNodes")
 ##' shi_dist <- shi_ranger_one_tree(tree_index = 1,
 ##'                  predictions = pred.iris)
-shi_ranger_one_tree <- function(tree_index = 1, predictions){
+shi_ranger_one_tree <- function(tree_index = 1, predictions,
+                                init_dist = 0){
   ## Begin of parameter check
   assertions <- makeAssertCollection()
   ## tree_index must be an integer
@@ -34,7 +37,9 @@ shi_ranger_one_tree <- function(tree_index = 1, predictions){
   ## End of parameter check
   predicted_nodes <- predictions$predictions[ , tree_index]
   tmp <- lapply(predicted_nodes, function(i){
-    as.numeric(predicted_nodes != i)
+    res <- as.numeric(predicted_nodes != i)
+    res[is.na(res)] <- init_dist
+    return(res)
   })
   dist_shi_ranger <- Reduce(f = "cbind", x = tmp)
   return(dist_shi_ranger)

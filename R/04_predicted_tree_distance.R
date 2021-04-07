@@ -6,6 +6,7 @@
 ##' @param tree_index [\code{integer}] A ranger tree
 ##' @param forest [\code{ranger}] A ranger object
 ##' @param predictions [\code{ranger}] Predictions object from class ranger
+##' @param init_dist [\code{integer}] Initial distance between in-of-bag nodes
 ##'
 ##' @return [\code{matrix}] A matrix of dissimilarities
 ##' @export
@@ -27,7 +28,8 @@
 predicted_tree_distance <- function(
   tree_index,
   forest,
-  predictions
+  predictions,
+  init_dist = 0
 ){
   ## Begin of parameter check
   assertions <- makeAssertCollection()
@@ -60,6 +62,9 @@ predicted_tree_distance <- function(
   setkeyv(expand_node_pred, c("node1", "node2"))
   ## Distance between individuals
   all_node_dists <- tree_dist[expand_node_pred, allow.cartesian = TRUE]
+  node1 <- NULL
+  dist <- NULL
+  all_node_dists[(is.na(node1)), dist := init_dist]
   all_node_dists[(is.na(dist)), dist := 0]
   all_node_dists$i.dist <- NULL
   all_node_dists <- all_node_dists[order(index, decreasing = FALSE), ]

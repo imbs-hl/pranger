@@ -6,6 +6,7 @@
 ##'
 ##' @param predictions [\code{ranger}] An ranger predicted object of terminal nodes
 ##' @param forest [\code{ranger}] A ranger forest
+##' @param init_dist [\code{integer}] Initial distance between in-of-bag nodes
 ##'
 ##' @return [\code{matrix}] Matrix of dissimilarities over the forest
 ##' @export
@@ -26,7 +27,8 @@
 ##' @import parallel
 predicted_forest_distance <- function(
   predictions,
-  forest
+  forest,
+  init_dist = 0
 ){
   tree_dist <- mclapply(1:forest$num.trees, function(
     index_tree,
@@ -37,7 +39,9 @@ predicted_forest_distance <- function(
     data_dist <- predicted_tree_distance(
       tree_index = index_tree,
       forest = forest,
-      predictions = predictions)
+      predictions = predictions,
+      init_dist = init_dist)
+    data_dist[is.na(data_dist)] <- 0
     return(data_dist)
   }, predictions = predictions, forest = forest)
   ## Reduce and clean dissimilarities

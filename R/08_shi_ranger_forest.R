@@ -8,6 +8,7 @@
 ##'
 ##' @param predictions [\code{predict.ranger}] Terminal nodes predicted by
 ##'                                    \code{predict.ranger}
+##' @param init_dist [\code{integer}] Initial distance between in-of-bag nodes
 ##'
 ##' @return [\code{matrix}] Dissimilarity matrix according to Shi and Hovarth (2006)
 ##' @export
@@ -21,13 +22,16 @@
 ##' rg.iris <- ranger(Species ~ ., data = iris.train, num.trees = 5)
 ##' pred.iris <- predict(rg.iris, data = iris.test, type = "terminalNodes")
 ##' shi_dist <- shi_ranger_forest(predictions = pred.iris)
-shi_ranger_forest <- function(predictions){
+shi_ranger_forest <- function(predictions, init_dist = 0){
   forest_dist <- lapply(1:ncol(predictions$predictions), function(tree){
     predicted_nodes <- predictions$predictions[ , tree]
     tmp <- lapply(predicted_nodes, function(i){
-      as.numeric(predicted_nodes != i)
+      res <- as.numeric(predicted_nodes != i)
+      res[is.na(res)] <- init_dist
+      return(res)
     })
     dist_shi_ranger <- Reduce(f = "cbind", x = tmp)
+    return(dist_shi_ranger)
   })
   forest_dist <- Reduce(f = "+", x = forest_dist)
   forest_dist <- cleandist(forest_dist)

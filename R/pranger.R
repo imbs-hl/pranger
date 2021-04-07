@@ -28,6 +28,8 @@
 ##' @param ... further parameters to be passed to \code{ranger}
 ##' @param oob [\code{boolean}] If TRUE, dissimilarities are computed using
 ##'                             out of bag observations only.
+##' @param init_dist [\code{integer}] Initial distance between in-of-bag
+##'                                   individual. Required if oob = TRUE.
 ##'
 ##' @return [\code{matrix}] Matrix of dissimilarities.
 ##'                         Note: You can use the function \code{cleandist} to
@@ -49,6 +51,7 @@ pranger <- function(
   data,
   strategy,
   oob = FALSE,
+  init_dist = 0,
   nb_bootst = NULL,
   approach = "deep",
   aggregation = mean,
@@ -128,29 +131,41 @@ pranger <- function(
   ranger_pred <- predict(object = ranger_forest,
                          data = data[1:n, -1],
                          type = "terminalNodes")
-  ## Get oob observations if required
+  ## Use oob observations if required
+  count_oob <- matrix(data = 0, ncol = n, nrow = n)
   oob_pred <- if(oob){
-    lapply(1:ranger_forest$num.trees, function(index){
+    oob_index <- NULL
+    rg_pred <- lapply(1:ranger_forest$num.trees, function(index){
       tmp_pred <- ranger_pred$predictions
       null_index <- ranger_forest$inbag.counts[[index]][1:n]
-      tmp_pred[null_index != 0, index] <- rep(0, sum(null_index != 0))
+      tmp_pred[null_index != 0, index] <- NA#rep(0, sum(null_index != 0))
+      # oob_index <<- combn(x = which(null_index == 0), m = 2)
       return(tmp_pred[ , index])
     })
+  rg_pred
   } else {
     lapply(1:ranger_forest$num.trees, function(index){
     return(ranger_pred$predictions[ , index])
     })
   }
-  ranger_pred$predictions <- Reduce(f = "cbind", x = oob_pred)
+  ranger_pred$predictions <- if(ranger_forest$num.trees == 1){
+    matrix(data = oob_pred[[1]], ncol = 1)
+    } else {
+    Reduce(f = "cbind", x = oob_pred)
+    }
+
   if(verbose){
     cat("Calculating dissimilarities...\n")
   }
   ## Calculate dissimilarities between observations
   forest_dist <- if(approach == "deep"){
     predicted_forest_distance(forest = ranger_forest,
-                              predictions = ranger_pred)
+                              predictions = ranger_pred,
+                              init_dist = init_dist)
   } else {
-    shi_ranger_forest(predictions = ranger_pred)
+      shi_ranger_forest(predictions = ranger_pred,
+                        init_dist = init_dist)
+    # shi_ranger_forest(predictions = ranger_pred)
   }
   return(forest_dist)
 }
