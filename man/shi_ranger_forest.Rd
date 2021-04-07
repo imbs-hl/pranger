@@ -4,11 +4,13 @@
 \alias{shi_ranger_forest}
 \title{Pranger}
 \usage{
-shi_ranger_forest(predictions)
+shi_ranger_forest(predictions, init_dist = 0)
 }
 \arguments{
 \item{predictions}{[\code{predict.ranger}] Terminal nodes predicted by
 \code{predict.ranger}}
+
+\item{init_dist}{[\code{integer}] Initial distance between in-of-bag nodes}
 }
 \value{
 [\code{matrix}] Dissimilarity matrix according to Shi and Hovarth (2006)

@@ -8,6 +8,7 @@ pranger(
   data,
   strategy,
   oob = FALSE,
+  init_dist = 0,
   nb_bootst = NULL,
   approach = "deep",
   aggregation = mean,
@@ -26,6 +27,9 @@ pranger(
 
 \item{oob}{[\code{boolean}] If TRUE, dissimilarities are computed using
 out of bag observations only.}
+
+\item{init_dist}{[\code{integer}] Initial distance between in-of-bag
+individual. Required if oob = TRUE.}
 
 \item{nb_bootst}{[\code{integer}] Number of repetitions required to aggregate the
 bootstrap samples. Set to ceiling(sqrt(n)) if not

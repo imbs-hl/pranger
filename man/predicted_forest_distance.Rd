@@ -4,12 +4,14 @@
 \alias{predicted_forest_distance}
 \title{Pranger}
 \usage{
-predicted_forest_distance(predictions, forest)
+predicted_forest_distance(predictions, forest, init_dist = 0)
 }
 \arguments{
 \item{predictions}{[\code{ranger}] An ranger predicted object of terminal nodes}
 
 \item{forest}{[\code{ranger}] A ranger forest}
+
+\item{init_dist}{[\code{integer}] Initial distance between in-of-bag nodes}
 }
 \value{
 [\code{matrix}] Matrix of dissimilarities over the forest
