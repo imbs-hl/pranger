@@ -148,8 +148,8 @@ resampling <- function(
                 }
                 ##
                 g4  <- function(data, nb_bootst) {
-                  apply(data, 2, function(i, nb_bootst){
-                    sample_n_elts(data = i, nb_bootst = nb_bootst)
+                  apply(data, 2, function(i, nb_bootst = nb_bootst){
+                    sample_n_elts(data = i, nb_bootst)
                   }, nb_bootst = nb_bootst)
                 }
                 ## Use functions
