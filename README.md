@@ -5,7 +5,7 @@
 Cesaire J. K. Fouodo
 
 ### Introduction
-Pranger bases on unsupervised random forests (URF) generated with ranger to compute proximities between individuals.Two approaches are supported. The first approach of Shi and Horvath (2006) that increases the dissimilarity between two individuals to one if they don't belong to the same terminal node. The second approach of Fouodo et al. (2021) takes the tree depth into account and estimates the dissimilarity between two individuals basing on the length of the minimal path between the terminal nodes they belong to.
+Pranger bases on unsupervised random forests (URF) generated with ranger to compute proximities between individuals.Two approaches are supported. The first approach of Shi and Horvath (2006) that increases the dissimilarity between two individuals to one if they don't belong to the same terminal node. The second approach of Fouodo et al. (2021) takes the tree depth into account and estimates the dissimilarity between two individuals basing on the length of the minimal path between the terminal nodes they belong to. We also propose a new approach to compute URF variable importance, suitable for the high-dimensional testing procedure of Janitza et al. (2018).
 
 ### Installation
 Installation from Github:
@@ -92,5 +92,6 @@ print(testing_res)
 
 ### References
 * Shi, T., Hovarth and S. (2006). Unsupervised Learning with Random Forest Predictors. Journal of Computational and Graphical Statistics 15 (1): 118–38.
+* Janitza, S, Celik, E, Boulesteix, AL. (2018). A computationally fast variable importance test for random forests for high-dimensional data. Adv Data Anal Classif.; doi.org: 10.1007/s11634-016-0276-4
 * Cesaire J. K. Fouodo, Inke R. König Silke Szymczak (2022) Computing variable importance with unsupervised random forests. In review process.
-
+* Fouodo, K.C.J, Szymczak, S., Wright, N.M. and König R.I. (2021). Improving unsupervised random forests with new proximity measure and a modified resampling strategy. xxxx xx(xx): xx-xx.
