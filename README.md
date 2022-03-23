@@ -79,6 +79,7 @@ print(iris_plot)
 ```R
 library(MASS)
 set.seed(321)
+## Simulate data with 3 clusters and 10 relevant clusters
 test_data <- mvrnorm(n = 300, mu = rep(0, 250), Sigma = diag(250))
 test_data[1:100, 1:10] <- test_data[1:100, 1:10] - 5
 test_data[201:300, 1:10] <- test_data[201:300, 1:10] + 5
