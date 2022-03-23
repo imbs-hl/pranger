@@ -20,6 +20,10 @@ urf_test <- function(
   resampling_seed,
   ...
 ){
+  ## data must be a data.frame
+  if(!inherits(data, "data.frame")){
+    stop("data must be a data.frame")
+  }
   if(!missing(resampling_seed)){
     set.seed(seed = resampling_seed)
   }

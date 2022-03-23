@@ -74,8 +74,23 @@ iris_plot <- ggplot(data = mds_iris_dist,
               facet_wrap( ~ Method, scales = "free", nrow = 2)
 print(iris_plot)
 ```
+### Variable importance and testing procedure with UNAIR
 
+```R
+library(MASS)
+set.seed(321)
+test_data <- mvrnorm(n = 300, mu = rep(0, 250), Sigma = diag(250))
+test_data[1:100, 1:10] <- test_data[1:100, 1:10] - 5
+test_data[201:300, 1:10] <- test_data[201:300, 1:10] + 5
+## Variable importance and testing procedure
+testing_res <- urf_test(data = data.frame(test_data),
+                        target = "target",
+                        resampling_seed = 123,
+                        num.trees = 10e3)
+print(testing_res)
+```
 
 ### References
 * Shi, T., Hovarth and S. (2006). Unsupervised Learning with Random Forest Predictors. Journal of Computational and Graphical Statistics 15 (1): 118–38.
-* Fouodo, K.C.J, Szymczak, S., Wright, N.M. and König R.I. (2021). Improving unsupervised random forests with new proximity measure and a modified resampling strategy. xxxx xx(xx): xx-xx.
+* Cesaire J. K. Fouodo, Inke R. König Silke Szymczak (2022) Computing variable importance with unsupervised random forests. In review process.
+
