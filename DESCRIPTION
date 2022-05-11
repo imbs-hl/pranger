@@ -10,7 +10,6 @@ Imports:
     data.table,
     gtools,
     parallel,
-    hdrcde,
     bayesboot,
     checkmate,
     stats
