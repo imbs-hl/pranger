@@ -1,6 +1,6 @@
 ##' Pranger
 ##'
-##' Search parent nodes of each terminal node from a tree
+##' Search parent nodes of each terminal node of a tree
 ##'
 ##' @param ranger_tree [\code{ranger.tree}] A ranger tree\cr
 ##'
